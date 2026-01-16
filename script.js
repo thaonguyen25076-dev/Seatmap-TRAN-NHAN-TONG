@@ -1,3 +1,4 @@
+const VIEW_ONLY = window.VIEW_ONLY ?? true;
 /* ====== CẤU HÌNH ====== */
 const rows = "ABCDEFGHIJKLM".split("");
 const seatWrapper = document.getElementById("seatWrapper");
@@ -41,16 +42,16 @@ function createBlock(numbers, red = false, currentRow = "") {
     const seat = document.createElement("div");
     seat.className = "seat";
 
-    const seatId = currentRow + n; // VD: A1
+    const seatId = currentRow + n;
     seat.dataset.seat = seatId;
     seat.textContent = n;
 
     if (red) seat.classList.add("center-red");
 
-    // click → khóa ghế (KHÔNG MỞ LẠI)
-    seat.addEventListener("click", () => lockSeat(seatId));
+    // 👉 CLICK = TOGGLE MỞ / KHÓA
+    seat.addEventListener("click", () => toggleSeat(seatId));
 
-    // realtime lắng nghe
+    // 👉 realtime lắng nghe
     listenSeat(seatId, seat);
 
     block.appendChild(seat);
@@ -68,7 +69,10 @@ for (let i = 20; i >= 1; i--) {
   seat.dataset.seat = seatId;
   seat.textContent = i;
 
-  seat.addEventListener("click", () => lockSeat(seatId));
+  if (!VIEW_ONLY) {
+  seat.addEventListener("click", () => toggleSeat(seatId));
+}
+
   listenSeat(seatId, seat);
 
   bottomRow.appendChild(seat);
@@ -76,31 +80,26 @@ for (let i = 20; i >= 1; i--) {
 
 /* ====== FIREBASE ====== */
 
-// 🔒 KHÓA GHẾ (CHỈ KHÓA – KHÔNG MỞ)
-function lockSeat(seatId) {
+// 🔁 TOGGLE GHẾ (KHÓA <-> MỞ)
+function toggleSeat(seatId) {
   const ref = db.ref("seats/" + seatId);
 
-  ref.once("value").then(snapshot => {
+  ref.get().then(snapshot => {
     if (snapshot.exists()) {
-      // đã có người khóa → không làm gì
-      return;
+      ref.remove();           // 👉 MỞ GHẾ
+    } else {
+      ref.set(true);          // 👉 KHÓA GHẾ
     }
-    ref.set({
-      locked: true,
-      time: Date.now()
-    });
   });
 }
 
-// 👀 REALTIME CẬP NHẬT GHẾ
+// 👀 REALTIME UPDATE
 function listenSeat(seatId, seatEl) {
   db.ref("seats/" + seatId).on("value", snapshot => {
     if (snapshot.exists()) {
       seatEl.classList.add("locked");
-      seatEl.style.pointerEvents = "none";
     } else {
       seatEl.classList.remove("locked");
-      seatEl.style.pointerEvents = "auto";
     }
   });
 }
