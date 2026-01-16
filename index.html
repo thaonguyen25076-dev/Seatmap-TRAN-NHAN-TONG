@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Seat Map</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="layout">
+
+  <!-- KHUNG GHẾ -->
+  <div class="hall">
+
+    <div class="stage">SÂN KHẤU</div>
+
+    <div class="entrance left">CỬA VÀO →</div>
+    
+
+    <div class="seat-wrapper" id="seatWrapper"></div>
+
+    <div class="row bottom">
+      <div class="row-label">N</div>
+      <div class="bottom-row" id="bottomRow"></div>
+      <div class="row-label">N</div>
+    </div>
+
+  </div>
+
+  <!-- HẠNG VÉ (CỐ ĐỊNH) -->
+  <!-- HẠNG VÉ (CỐ ĐỊNH) -->
+<div class="ticket-list">
+
+  <div class="ticket-title">Hạng vé</div>
+
+  <!-- STANDARD -->
+  <div class="ticket-card">
+    <div class="ticket-badge standard">
+      STANDARD
+    </div>
+    <div class="ticket-info">
+      <div class="ticket-name">STANDARD</div>
+      <div class="ticket-price">300,000đ</div>
+      <div class="ticket-note">Chọn từ sơ đồ ghế</div>
+    </div>
+  </div>
+
+  <!-- VIP -->
+  <div class="ticket-card">
+    <div class="ticket-badge vip">
+      VIP
+    </div>
+    <div class="ticket-info">
+      <div class="ticket-name">VIP</div>
+      <div class="ticket-price">400,000đ</div>
+      <div class="ticket-note">Chọn từ sơ đồ ghế</div>
+    </div>
+  </div>
+
+</div>
+
+
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyDhxpZNFqRmP00SinKIrJm9yiks65GMWfU",
+    authDomain: "seats-44179.firebaseapp.com",
+    databaseURL: "https://seats-44179-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "seats-44179",
+    storageBucket: "seats-44179.appspot.com",
+    messagingSenderId: "676842315110",
+    appId: ""
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+</script>
+<script src="script.js"></script>
+</body>
+</html>
