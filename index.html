@@ -7,14 +7,12 @@
 </head>
 
 <body>
-<!-- 🔒 CHỈ XEM -->
+
+<!-- 🔒 CHỈ XEM – KHÁCH -->
 <script>
   window.VIEW_ONLY = true;
 </script>
 
-<div class="layout">
-
-  <div class="hall">
 <div class="layout">
 
   <!-- KHUNG GHẾ -->
@@ -23,7 +21,6 @@
     <div class="stage">SÂN KHẤU</div>
 
     <div class="entrance left">CỬA VÀO →</div>
-    
 
     <div class="seat-wrapper" id="seatWrapper"></div>
 
@@ -35,39 +32,34 @@
 
   </div>
 
-  <!-- HẠNG VÉ (CỐ ĐỊNH) -->
-  <!-- HẠNG VÉ (CỐ ĐỊNH) -->
-<div class="ticket-list">
+  <!-- HẠNG VÉ -->
+  <div class="ticket-list">
 
-  <div class="ticket-title">Hạng vé</div>
+    <div class="ticket-title">Hạng vé</div>
 
-  <!-- STANDARD -->
-  <div class="ticket-card">
-    <div class="ticket-badge standard">
-      STANDARD
+    <!-- STANDARD -->
+    <div class="ticket-card">
+      <div class="ticket-badge standard">STANDARD</div>
+      <div class="ticket-info">
+        <div class="ticket-name">STANDARD</div>
+        <div class="ticket-price">300,000đ</div>
+        <div class="ticket-note">Chọn từ sơ đồ ghế</div>
+      </div>
     </div>
-    <div class="ticket-info">
-      <div class="ticket-name">STANDARD</div>
-      <div class="ticket-price">300,000đ</div>
-      <div class="ticket-note">Chọn từ sơ đồ ghế</div>
-    </div>
-  </div>
 
-  <!-- VIP -->
-  <div class="ticket-card">
-    <div class="ticket-badge vip">
-      VIP
+    <!-- VIP -->
+    <div class="ticket-card">
+      <div class="ticket-badge vip">VIP</div>
+      <div class="ticket-info">
+        <div class="ticket-name">VIP</div>
+        <div class="ticket-price">400,000đ</div>
+        <div class="ticket-note">Chọn từ sơ đồ ghế</div>
+      </div>
     </div>
-    <div class="ticket-info">
-      <div class="ticket-name">VIP</div>
-      <div class="ticket-price">400,000đ</div>
-      <div class="ticket-note">Chọn từ sơ đồ ghế</div>
-    </div>
+
   </div>
 
 </div>
-
-
 
 <!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -87,6 +79,7 @@
   firebase.initializeApp(firebaseConfig);
   const db = firebase.database();
 </script>
+
 <script src="script.js"></script>
 </body>
 </html>
