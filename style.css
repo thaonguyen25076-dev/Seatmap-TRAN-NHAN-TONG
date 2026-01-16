@@ -380,11 +380,18 @@ body {
   font-size: 13px;
   color: #f39c12;
 }
+/* ===== GHẾ BỊ KHÓA – MẶC ĐỊNH (ADMIN) ===== */
 .seat.locked {
   background: #555 !important;
   color: #fff;
+  cursor: pointer; /* admin vẫn click */
+}
+
+/* ===== CHỈ KHÓA CLICK KHI LÀ KHÁCH ===== */
+body.view-only .seat,
+body.view-only .seat.locked {
+  pointer-events: none;     /* 🔒 khóa cứng */
   cursor: not-allowed;
-  pointer-events: none; /* 🔒 khóa cứng từ CSS */
 }
 
 
