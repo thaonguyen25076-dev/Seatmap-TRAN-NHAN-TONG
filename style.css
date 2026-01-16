@@ -384,14 +384,14 @@ body {
 .seat.locked {
   background: #555 !important;
   color: #fff;
-  cursor: pointer; /* admin vẫn click */
+  cursor: pointer; /* admin click được */
 }
 
-/* ===== CHỈ KHÓA CLICK KHI LÀ KHÁCH ===== */
-body.view-only .seat,
-body.view-only .seat.locked {
-  pointer-events: none;     /* 🔒 khóa cứng */
+/* KHÓA CỨNG CHỈ CHO KHÁCH */
+body.view-only .seat {
+  pointer-events: none;
   cursor: not-allowed;
 }
+
 
 

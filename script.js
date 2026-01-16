@@ -1,19 +1,19 @@
 // ================== QUYỀN ==================
-const VIEW_ONLY = window.VIEW_ONLY === true;
+const VIEW_ONLY = document.body.classList.contains("view-only");
 
 // ================== CẤU HÌNH ==================
 const rows = "ABCDEFGHIJKLM".split("");
 const seatWrapper = document.getElementById("seatWrapper");
 const bottomRow = document.getElementById("bottomRow");
 
-// ================== TẠO HÀNG ==================
+// ================== TẠO HÀNG A–M ==================
 rows.forEach(row => {
   const rowDiv = document.createElement("div");
   rowDiv.className = "row";
 
-  const left = [17,16,15,14];
+  const left   = [17,16,15,14];
   const center = [13,12,11,10,9,8,7,6,5];
-  const right = [4,3,2,1];
+  const right  = [4,3,2,1];
 
   rowDiv.appendChild(createBlock(left, false, row));
   rowDiv.appendChild(createLabel(row));
@@ -32,7 +32,7 @@ function createLabel(text) {
   return d;
 }
 
-// ================== GHẾ ==================
+// ================== BLOCK GHẾ ==================
 function createBlock(nums, red, row) {
   const block = document.createElement("div");
   block.className = "block";
@@ -47,10 +47,8 @@ function createBlock(nums, red, row) {
 
     if (red) seat.classList.add("center-red");
 
-    // 🔒 KHÓA CỨNG CLICK CHO KHÁCH
-    if (VIEW_ONLY) {
-      seat.style.pointerEvents = "none";
-    } else {
+    // 🔒 KHÁCH KHÔNG CÓ CLICK
+    if (!VIEW_ONLY) {
       seat.addEventListener("click", () => toggleSeat(seatId));
     }
 
@@ -70,9 +68,7 @@ for (let i = 20; i >= 1; i--) {
   const seatId = "N" + i;
   seat.dataset.seat = seatId;
 
-  if (VIEW_ONLY) {
-    seat.style.pointerEvents = "none";
-  } else {
+  if (!VIEW_ONLY) {
     seat.addEventListener("click", () => toggleSeat(seatId));
   }
 
@@ -84,7 +80,11 @@ for (let i = 20; i >= 1; i--) {
 function toggleSeat(seatId) {
   const ref = db.ref("seats/" + seatId);
   ref.get().then(snap => {
-    snap.exists() ? ref.remove() : ref.set(true);
+    if (snap.exists()) {
+      ref.remove();   // 👉 mở ghế
+    } else {
+      ref.set(true); // 👉 khóa ghế
+    }
   });
 }
 
