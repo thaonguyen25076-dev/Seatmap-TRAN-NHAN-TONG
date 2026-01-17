@@ -1,5 +1,7 @@
-// ================== QUYỀN ==================
-const VIEW_ONLY = document.body.classList.contains("view-only");
+// ================== PHÂN QUYỀN ==================
+// index.html (file khách) có: window.VIEW_ONLY = true
+// admin.html KHÔNG có dòng này
+const VIEW_ONLY = window.VIEW_ONLY === true;
 
 // ================== CẤU HÌNH ==================
 const rows = "ABCDEFGHIJKLM".split("");
@@ -47,7 +49,7 @@ function createBlock(nums, red, row) {
 
     if (red) seat.classList.add("center-red");
 
-    // 🔒 KHÁCH KHÔNG CÓ CLICK
+    // 👉 CHỈ ADMIN MỚI CLICK
     if (!VIEW_ONLY) {
       seat.addEventListener("click", () => toggleSeat(seatId));
     }
@@ -76,18 +78,30 @@ for (let i = 20; i >= 1; i--) {
   bottomRow.appendChild(seat);
 }
 
-// ================== FIREBASE ==================
+// ================== FIREBASE + XÁC NHẬN ==================
 function toggleSeat(seatId) {
   const ref = db.ref("seats/" + seatId);
+
   ref.get().then(snap => {
+
+    // 👉 GHẾ ĐANG KHÓA → HỎI MỞ
     if (snap.exists()) {
-      ref.remove();   // 👉 mở ghế
-    } else {
-      ref.set(true); // 👉 khóa ghế
+      const ok = confirm(`Bạn có chắc chắn muốn MỞ ghế ${seatId} không?`);
+      if (!ok) return;
+      ref.remove();
     }
+
+    // 👉 GHẾ CHƯA KHÓA → HỎI KHÓA
+    else {
+      const ok = confirm(`Bạn có chắc chắn muốn KHÓA ghế ${seatId} không?`);
+      if (!ok) return;
+      ref.set(true);
+    }
+
   });
 }
 
+// ================== LẮNG NGHE TRẠNG THÁI ==================
 function listenSeat(seatId, el) {
   db.ref("seats/" + seatId).on("value", snap => {
     el.classList.toggle("locked", snap.exists());
