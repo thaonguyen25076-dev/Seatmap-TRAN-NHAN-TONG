@@ -107,3 +107,29 @@ function listenSeat(seatId, el) {
     el.classList.toggle("locked", snap.exists());
   });
 }
+// ================== RESET MAP (ADMIN) ==================
+if (!VIEW_ONLY) {
+  const resetBtn = document.getElementById("resetSeatsBtn");
+
+  if (resetBtn) {
+    resetBtn.addEventListener("click", () => {
+
+      const ok = confirm(
+        "Bạn có chắc chắn muốn RESET toàn bộ sơ đồ ghế không?\n\n" +
+        "- Tất cả ghế đang KHÓA sẽ được MỞ lại\n" +
+        "- Thao tác này KHÔNG THỂ hoàn tác"
+      );
+
+      if (!ok) return;
+
+      db.ref("seats").remove()
+        .then(() => {
+          alert("Reset sơ đồ ghế thành công.");
+        })
+        .catch(err => {
+          alert("Có lỗi khi reset.");
+          console.error(err);
+        });
+    });
+  }
+}

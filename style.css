@@ -392,6 +392,29 @@ body.view-only .seat {
   pointer-events: none;
   cursor: not-allowed;
 }
+/* ===== RESET MAP – ADMIN ===== */
+.reset-map {
+  position: absolute;
+  top: 52px;          /* ngang sân khấu */
+  left: -160px;       /* nằm ngoài bên trái */
+  z-index: 5;
+}
 
+.reset-map button {
+  padding: 10px 16px;
+  font-size: 14px;
+  background: #c0392b;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  white-space: nowrap;
+  top: 100px;   /* cao hơn */
+}
+
+.reset-map button:hover {
+  background: #e74c3c;
+}
 
 
