@@ -3,7 +3,6 @@ body {
   margin: 0;
   font-family: Arial, sans-serif;
   text-align: center;
-
   background-image: url("./bg.jpg");
   background-size: cover;
   background-position: center;
@@ -25,7 +24,7 @@ body {
 .layout::before {
   content: "";
   position: absolute;
-  inset: -200vh;       /* phủ toàn màn hình */
+  inset: -200vh;
   background: rgba(0, 0, 0, 0.45);
   z-index: 0;
   pointer-events: none;
@@ -189,202 +188,12 @@ body {
   font-size: 13px;
   color: #f39c12;
 }
-/* ===== BODY + BACKGROUND ===== */
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  text-align: center;
 
-  background-image: url("./bg.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-}
-
-/* ===== BỐ CỤC TỔNG ===== */
-.layout {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 40px;
-  margin-top: 30px;
-  position: relative;
-}
-
-/* lớp phủ làm mờ nền (AN TOÀN) */
-.layout::before {
-  content: "";
-  position: absolute;
-  inset: -200vh;       /* phủ toàn màn hình */
-  background: rgba(0, 0, 0, 0.45);
-  z-index: 0;
-  pointer-events: none;
-}
-
-/* ===== KHUNG GHẾ ===== */
-.hall {
-  position: relative;
-  width: fit-content;
-  z-index: 2;
-}
-
-/* sân khấu */
-.stage {
-  width: 600px;
-  margin: 40px auto;
-  background: #806f6f;
-  color: #fff;
-  padding: 24px;
-  border-radius: 0 0 30px 30px;
-  font-weight: bold;
-}
-
-/* cửa vào */
-.entrance {
-  position: absolute;
-  top: 150px;
-  left: -120px;
-  font-size: 21px;
-  font-weight: bold;
-  color: #ffffff;
-  white-space: nowrap;
-}
-
-/* ===== KHUNG GHẾ ===== */
-.seat-wrapper {
-  width: fit-content;
-  margin: 70px auto 0;
-  position: relative;
-  z-index: 3;
-}
-
-.row {
-  display: flex;
-  align-items: center;
-  margin-bottom: 6px;
-}
-
-.row-label {
-  width: 18px;
-  text-align: center;
-  font-weight: bold;
-  color: #ffffff;
-}
-
-.block {
-  display: flex;
-  gap: 4px;
-  margin: 0 8px;
-}
-
-/* ===== GHẾ ===== */
-.seat {
-  width: 26px;
-  height: 26px;
-  background: #2bb832;
-  color: #fff;
-  font-size: 12px;
-  border-radius: 4px;
-  line-height: 26px;
-  cursor: pointer;
-}
-
-/* ghế VIP */
-.seat.center-red {
-  background: #e53935;
-}
-
-/* khi chọn */
-.seat.selected {
-  background: #666;
-}
-
-/* ghế bị khóa */
-.seat.locked {
-  background: #555 !important;
-  color: #fff;
-  cursor: not-allowed;
-}
-
-/* ===== HÀNG N ===== */
-.row.bottom {
-  justify-content: center;
-  margin-top: 20px;
-}
-
-.bottom-row {
-  display: flex;
-  gap: 4px;
-}
-
-/* ===== HẠNG VÉ ===== */
-.ticket-list {
-  width: 280px;
-  background: #ffffff;
-  border-radius: 8px;
-  padding: 16px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
-  margin-top: 190px;
-  position: relative;
-  z-index: 2;
-}
-
-.ticket-title {
-  font-weight: bold;
-  font-size: 18px;
-  margin-bottom: 12px;
-}
-
-.ticket-card {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  border: 1px solid #eee;
-  border-radius: 6px;
-  padding: 12px;
-  margin-bottom: 12px;
-}
-
-.ticket-badge {
-  width: 80px;
-  height: 80px;
-  border-radius: 6px;
-  color: #fff;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-}
-
-.ticket-badge.standard {
-  background: #2ecc71;
-}
-
-.ticket-badge.vip {
-  background: #d32203;
-}
-
-.ticket-name {
-  font-weight: bold;
-  font-size: 15px;
-}
-
-.ticket-price {
-  margin: 4px 0;
-}
-
-.ticket-note {
-  margin-top: 8px;
-  font-size: 13px;
-  color: #f39c12;
-}
 /* ===== GHẾ BỊ KHÓA – MẶC ĐỊNH (ADMIN) ===== */
 .seat.locked {
   background: #555 !important;
   color: #fff;
-  cursor: pointer; /* admin click được */
+  cursor: pointer;
 }
 
 /* KHÓA CỨNG CHỈ CHO KHÁCH */
@@ -392,11 +201,12 @@ body.view-only .seat {
   pointer-events: none;
   cursor: not-allowed;
 }
+
 /* ===== RESET MAP – ADMIN ===== */
 .reset-map {
   position: absolute;
-  top: 52px;          /* ngang sân khấu */
-  left: -160px;       /* nằm ngoài bên trái */
+  top: 52px;
+  left: -160px;
   z-index: 5;
 }
 
@@ -410,30 +220,27 @@ body.view-only .seat {
   cursor: pointer;
   font-weight: bold;
   white-space: nowrap;
-  top: 100px;   /* cao hơn */
+  top: 100px;
 }
 
 .reset-map button:hover {
   background: #e74c3c;
 }
+
 /* ===== NÚT CHỌN NGÀY ===== */
 .map-btn {
   display: inline-block;
   min-width: 180px;
   margin: 10px 0;
   padding: 12px 20px;
-
   font-size: 15px;
   font-weight: bold;
   letter-spacing: 0.5px;
-
   background: linear-gradient(135deg, #f1c40f, #d4ac0d);
   color: #3a2f00;
-
   border: none;
   border-radius: 8px;
   cursor: pointer;
-
   box-shadow: 0 4px 8px rgba(0,0,0,0.35);
 }
 
@@ -446,66 +253,42 @@ body.view-only .seat {
   transform: translateY(1px);
   box-shadow: 0 2px 4px rgba(0,0,0,0.45);
 }
+
 #mapSelect {
   text-align: center;
 }
 
-#mapSelect h2 {
-  margin-bottom: 18px;
-  color: #fff;
-  text-shadow: 0 2px 6px rgba(0,0,0,0.6);
-}
 /* ===== TRANG CHỌN NGÀY ===== */
 #mapSelect {
   display: flex;
-  flex-direction: column;     
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-
   margin-top: 200px;
   text-align: center;
 }
 
-/* tiêu đề */
 #mapSelect h2 {
-  margin-bottom: 22px;
-  color: #ffffff;
+  margin-bottom: 20px;
+  color: #fcfcfc;
   font-size: 35px;
   text-shadow: 0 3px 8px rgba(0,0,0,0.6);
   font-family: 'Cinzel', serif;
 }
 
-/* nhóm nút nằm ngang */
 .map-btn {
-  min-width: 260px;      /* TO HƠN RÕ */
-  height: 58px;          /* chiều cao cố định → nút chắc */
+  min-width: 260px;
+  height: 60px;
   padding: 0 28px;
-
-  font-size: 18px;       /* chữ to */
-  font-weight: 700;
+  font-size: 20px;
+  font-weight: 600;
   letter-spacing: 1px;
-
   background: linear-gradient(135deg, #f13c0f, #f32c12);
   color: #ffffff;
-
   border: none;
-  border-radius: 12px;   /* bo tròn sang hơn */
+  border-radius: 12px;
   cursor: pointer;
-
-  box-shadow: 
+  box-shadow:
     0 6px 12px rgba(0,0,0,0.35),
     inset 0 1px 0 rgba(255,255,255,0.4);
 }
-/* ===============================
-   📱 THU LAYOUT KHỎI SÁT VIỀN (GITHUB + MOBILE)
-   =============================== */
-@media (max-width: 1024px) {
-  .layout {
-    padding-left: 12px;
-    padding-right: 12px;
-  }
-}
-
-
-
-
