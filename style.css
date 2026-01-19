@@ -41,7 +41,7 @@ body {
 .stage {
   width: 600px;
   margin: 40px auto;
-  background: #380505;
+  background: #c21414;
   box-shadow: 0 2px 8px rgba(255, 255, 255, 0.25);
   color: #fff;
   padding: 24px;
@@ -362,3 +362,4 @@ body.view-only .seat {
     font-size: 18px;
   }
 }
+
