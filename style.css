@@ -496,6 +496,67 @@ body.view-only .seat {
     0 6px 12px rgba(0,0,0,0.35),
     inset 0 1px 0 rgba(255,255,255,0.4);
 }
+/* ===============================
+   🔒 KHÓA CUỘN – TRANG MAP
+   =============================== */
+
+/* khóa toàn trang */
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+/* layout luôn nằm trong màn hình */
+.layout {
+  height: 100vh;
+  overflow: hidden;
+  align-items: center;
+}
+
+/* khung map không tràn */
+.hall {
+  max-height: calc(100vh - 80px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* scale map để vừa màn hình (KHÔNG MẤT GHẾ) */
+.seat-wrapper {
+  transform: scale(0.95);
+  transform-origin: top center;
+}
+
+/* giữ hàng N cân giữa tuyệt đối */
+.row.bottom {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.bottom-row {
+  display: flex;
+  justify-content: center;
+  margin-left: 0;
+}
+/* ===============================
+   ❌ XOÁ SỌC TRẮNG PHÍA TRÊN
+   =============================== */
+
+/* bỏ khoảng hở trên cùng */
+.layout {
+  margin-top: 0 !important;
+}
+
+/* kéo sân khấu sát lên trên */
+.stage {
+  margin-top: 0 !important;
+}
+/* ===== THU NHỎ MAP NHẸ – KHÔNG ẢNH HƯỞNG LAYOUT ===== */
+.hall {
+  transform: scale(0.95);
+  transform-origin: center;
+}
 
 
 
