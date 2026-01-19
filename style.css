@@ -557,6 +557,16 @@ html, body {
   transform: scale(0.95);
   transform-origin: center;
 }
+/* ===== FIX SCROLL TRÊN GITHUB PAGES – DỨT ĐIỂM ===== */
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.layout::before {
+  inset: 0 !important; /* KHÔNG dùng -200vh */
+}
 
 
 
