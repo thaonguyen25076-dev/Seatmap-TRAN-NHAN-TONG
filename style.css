@@ -15,7 +15,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  gap: 40px;
+  gap: 28px;
   margin-top: 30px;
   position: relative;
 }
@@ -292,3 +292,4 @@ body.view-only .seat {
     0 6px 12px rgba(0,0,0,0.35),
     inset 0 1px 0 rgba(255,255,255,0.4);
 }
+
