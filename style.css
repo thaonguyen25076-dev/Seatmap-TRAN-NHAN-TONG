@@ -41,11 +41,13 @@ body {
 .stage {
   width: 600px;
   margin: 40px auto;
-  background: #806f6f;
+  background: #380505;
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.25);
   color: #fff;
   padding: 24px;
   border-radius: 0 0 30px 30px;
   font-weight: bold;
+  font-size: 21px;
 }
 
 /* cửa vào */
@@ -57,6 +59,7 @@ body {
   font-weight: bold;
   color: #ffffff;
   white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.25);
 }
 
 /* ===== KHUNG GHẾ ===== */
@@ -65,6 +68,7 @@ body {
   margin: 70px auto 0;
   position: relative;
   z-index: 3;
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.25);
 }
 
 .row {
@@ -96,11 +100,13 @@ body {
   border-radius: 4px;
   line-height: 26px;
   cursor: pointer;
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.25);
 }
 
 /* ghế VIP */
 .seat.center-red {
   background: #e53935;
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.25);
 }
 
 /* khi chọn */
@@ -119,6 +125,7 @@ body {
 .row.bottom {
   justify-content: center;
   margin-top: 20px;
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.25);
 }
 
 .bottom-row {
@@ -129,19 +136,20 @@ body {
 /* ===== HẠNG VÉ ===== */
 .ticket-list {
   width: 280px;
-  background: #ffffff;
+  background: #461717;
   border-radius: 8px;
   padding: 16px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
   margin-top: 190px;
   position: relative;
   z-index: 2;
+  color: #fff;
 }
 
 .ticket-title {
   font-weight: bold;
   font-size: 18px;
   margin-bottom: 12px;
+  color: #fff;
 }
 
 .ticket-card {
@@ -242,6 +250,7 @@ body.view-only .seat {
   border-radius: 8px;
   cursor: pointer;
   box-shadow: 0 4px 8px rgba(0,0,0,0.35);
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.25);
 }
 
 .map-btn:hover {
@@ -274,6 +283,7 @@ body.view-only .seat {
   font-size: 35px;
   text-shadow: 0 3px 8px rgba(0,0,0,0.6);
   font-family: 'Cinzel', serif;
+   box-shadow: 0 2px 8px rgba(255, 255, 255, 0.25);
 }
 
 .map-btn {
@@ -286,9 +296,8 @@ body.view-only .seat {
   background: linear-gradient(135deg, #f13c0f, #f32c12);
   color: #ffffff;
   border: none;
-  border-radius: 12px;
+  border-radius: 50px;
   cursor: pointer;
-  box-shadow:
-    0 6px 12px rgba(0,0,0,0.35),
+  box-shadow: 0 6px 12px rgba(0,0,0,0.35),
     inset 0 1px 0 rgba(255,255,255,0.4);
 }
