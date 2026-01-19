@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Seat Map</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- 🔒 CHỈ XEM – KHÁCH -->
+<script>
+  window.VIEW_ONLY = true;
+</script>
+
+<!-- ===== TRANG CHỌN MAP ===== -->
+<div id="mapSelect">
+  <h2>Sơ đồ ghế Vở Diễn TRẦN NHÂN TÔNG</h2>
+  <!-- LOGO -->
+
+  <div class="map-btn-group">
+    <button class="map-btn" onclick="selectMap('2026-01-31')">31 - 01 - 2026</button>
+    <button class="map-btn" onclick="selectMap('2026-02-14')">14 - 02 - 2026</button>
+    <button class="map-btn" onclick="selectMap('2026-02-28')">28 - 02 - 2026</button>
+  </div>
+</div>
+
+</div>
+
+<!-- ===== SƠ ĐỒ GHẾ ===== -->
+<div class="layout" id="mainLayout" style="display:none">
+
+  <div class="hall">
+    <div class="stage">SÂN KHẤU</div>
+    <div class="entrance left">CỬA VÀO →</div>
+
+    <div class="seat-wrapper" id="seatWrapper"></div>
+
+    <div class="row bottom">
+      <div class="row-label">N</div>
+      <div class="bottom-row" id="bottomRow"></div>
+      <div class="row-label">N</div>
+    </div>
+  </div>
+
+  <div class="ticket-list">
+    <div class="ticket-title">Hạng vé</div>
+
+    <div class="ticket-card">
+      <div class="ticket-badge standard">STANDARD</div>
+      <div>
+        <div class="ticket-name">STANDARD</div>
+        <div class="ticket-price">300,000đ</div>
+        <div class="ticket-note">Chọn từ sơ đồ ghế</div>
+      </div>
+    </div>
+
+    <div class="ticket-card">
+      <div class="ticket-badge vip">VIP</div>
+      <div>
+        <div class="ticket-name">VIP</div>
+        <div class="ticket-price">400,000đ</div>
+        <div class="ticket-note">Chọn từ sơ đồ ghế</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== FIREBASE ===== -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyDhxpZNFqRmP00SinKIrJm9yiks65GMWfU",
+    authDomain: "seats-44179.firebaseapp.com",
+    databaseURL: "https://seats-44179-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "seats-44179",
+    storageBucket: "seats-44179.appspot.com",
+    messagingSenderId: "676842315110",
+    appId: ""
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+</script>
+
+<script>
+  function selectMap(key) {
+    window.MAP_KEY = key;
+
+    // đẩy state vào history
+    history.pushState({ map: key }, "", "#map-" + key);
+
+    document.getElementById("mapSelect").style.display = "none";
+    document.getElementById("mainLayout").style.display = "flex";
+
+    initSeatMap();
+  }
+</script>
+<script>
+  window.addEventListener("popstate", function (e) {
+
+    // nếu quay về trạng thái KHÔNG có map
+    if (!e.state || !e.state.map) {
+
+      // ẩn sơ đồ
+      document.getElementById("mainLayout").style.display = "none";
+
+      // hiện trang chọn ngày
+      document.getElementById("mapSelect").style.display = "block";
+
+      // xóa map hiện tại
+      window.MAP_KEY = null;
+
+      return;
+    }
+
+    // nếu quay lại map khác
+    window.MAP_KEY = e.state.map;
+    document.getElementById("mapSelect").style.display = "none";
+    document.getElementById("mainLayout").style.display = "flex";
+
+    initSeatMap();
+  });
+</script>
+
+
+
+<script src="script.js"></script>
+</body>
+</html>
