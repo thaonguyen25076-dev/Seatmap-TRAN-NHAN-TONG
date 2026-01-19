@@ -468,7 +468,7 @@ body.view-only .seat {
 
 /* tiêu đề */
 #mapSelect h2 {
-  margin-bottom: 20px;
+  margin-bottom: 22px;
   color: #fcfcfc;
   font-size: 35px;
   text-shadow: 0 3px 8px rgba(0,0,0,0.6);
@@ -478,13 +478,12 @@ body.view-only .seat {
 /* nhóm nút nằm ngang */
 .map-btn {
   min-width: 260px;      /* TO HƠN RÕ */
-  height: 60px;          /* chiều cao cố định → nút chắc */
+  height: 50px;          /* chiều cao cố định → nút chắc */
   padding: 0 28px;
 
   font-size: 20px;       /* chữ to */
   font-weight: 600;
   letter-spacing: 1px;
-
   background: linear-gradient(135deg, #f13c0f, #f32c12);
   color: #ffffff;
 
