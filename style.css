@@ -481,22 +481,29 @@ body.view-only .seat {
   }
 }
 @media (max-width: 768px) {
+
   .entrance {
-    position: relative;
-    left: 0;
-    top: 0;
+    position: static !important;   /* ❗ phá absolute */
+    left: auto !important;
+    top: auto !important;
 
-    margin: 10px 0 20px;
+    display: block !important;
+    width: fit-content;
+    margin: 10px auto 20px;
+
     font-size: 15px;
+    font-weight: bold;
+    color: #fff;
 
-    background: rgba(0,0,0,0.55);
-    padding: 6px 12px;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 6px 14px;
     border-radius: 6px;
 
-    display: inline-block;
     white-space: nowrap;
+    z-index: 5;
   }
 }
+
 @media (max-width: 768px) {
   .layout {
     flex-direction: column;
