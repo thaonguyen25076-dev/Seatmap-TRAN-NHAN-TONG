@@ -414,7 +414,7 @@ body.view-only .seat {
   .hall {
     transform: none !important;
     max-width: 100%;
-    overflow-x: hidden;
+    overflow-x: auto;
   }
 
   /* sân khấu vừa màn hình */
@@ -464,7 +464,7 @@ body.view-only .seat {
 }
 @media (max-width: 768px) {
   body {
-    overflow-x: hidden;
+    overflow-x: auto;
     overflow-y: auto;
     min-height: 100vh;
   }
@@ -497,6 +497,3 @@ body.view-only .seat {
     white-space: nowrap;
   }
 }
-
-
-
