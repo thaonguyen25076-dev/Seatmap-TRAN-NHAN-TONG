@@ -48,6 +48,7 @@ body {
   border-radius: 0 0 30px 30px;
   font-weight: bold;
   font-size: 21px;
+  
 }
 
 /* cửa vào */
@@ -69,6 +70,7 @@ body {
   position: relative;
   z-index: 3;
   box-shadow: 0 2px 8px rgba(255, 255, 255, 0.25);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.35),
 }
 
 .row {
@@ -100,13 +102,13 @@ body {
   border-radius: 4px;
   line-height: 26px;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.25);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.50);
 }
 
 /* ghế VIP */
 .seat.center-red {
   background: #e53935;
-  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.25);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
 }
 
 /* khi chọn */
