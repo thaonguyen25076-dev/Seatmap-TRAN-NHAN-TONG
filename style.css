@@ -7,8 +7,10 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-attachment: fixed;
+  background-attachment: scroll;
+  overflow-x: hidden;
 }
+
 
 /* ===== BỐ CỤC TỔNG ===== */
 .layout {
@@ -20,15 +22,16 @@ body {
   position: relative;
 }
 
-/* lớp phủ làm mờ nền (AN TOÀN) */
+/* lớp phủ làm mờ nền */
 .layout::before {
   content: "";
   position: absolute;
-  inset: -200vh;
-  background: rgba(0, 0, 0, 0.45);
+  inset: 0;
+  background: rgba(0, 0, 0, 0.20);
   z-index: 0;
   pointer-events: none;
 }
+
 
 /* ===== KHUNG GHẾ ===== */
 .hall {
@@ -39,15 +42,31 @@ body {
 
 /* sân khấu */
 .stage {
-  width: 600px;
-  margin: 40px auto;
-  background: #695555;
+  width: 550px;
+  margin: 60px auto;
+  background: #740101;
   box-shadow: 0 2px 8px rgba(255, 255, 255, 0.25);
-  color: #fff;
+  color: #ffffff;
   padding: 24px;
-  border-radius: 0 0 30px 30px;
+  border-radius: 0;
+
+  font-weight: bold;
+  font-size: 30px;
+   /* trộn màu đen */
+  background: linear-gradient(
+    to bottom,
+    #580000 60%,
+    #1d1c1c 100%
+  );
+  color: #fff;
   font-weight: bold;
   font-size: 21px;
+
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.8),
+    inset 0 2px 4px rgba(255,255,255,0.15);
+
+  border-radius: 0;
   
 }
 
@@ -375,7 +394,7 @@ body.view-only .seat {
   letter-spacing: 1px;
   text-transform: uppercase;
   color: #ffffff;
-  opacity: 0.9;
+  opacity: 0.4;
 }
 
 
