@@ -8,7 +8,11 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: scroll;
-  overflow-x: hidden;
+  overflow-x: auto;
+  overflow-y: auto;
+  height: 100vh;
+  overflow: hidden;
+
 }
 
 
@@ -395,6 +399,68 @@ body.view-only .seat {
   text-transform: uppercase;
   color: #ffffff;
   opacity: 0.4;
+}
+/* ================= MOBILE ONLY ================= */
+@media (max-width: 768px) {
+
+  /* layout xếp dọc */
+  .layout {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  /* KHÔNG SCALE – hiển thị đúng cấu trúc */
+  .hall {
+    transform: none !important;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  /* sân khấu vừa màn hình */
+  .stage {
+    width: 90%;
+    height: 70px;
+    font-size: 17px;
+  }
+
+  /* khung ghế gọn hơn */
+  .seat-wrapper {
+    margin-top: 40px;
+    padding: 6px;
+  }
+
+  /* ghế nhỏ hơn một chút cho vừa màn */
+  .seat {
+    width: 22px;
+    height: 22px;
+    font-size: 11px;
+    line-height: 22px;
+  }
+
+  /* hàng N không tràn */
+  .row.bottom {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  /* vé nằm dưới – đúng chuẩn mobile */
+  .ticket-list {
+    width: 92%;
+    max-width: 360px;
+    margin: 10px auto 30px;
+  }
+
+  /* header & footer gọn lại */
+  .top-header {
+    font-size: 12px;
+    padding: 10px 8px;
+  }
+
+  .bottom-footer {
+    font-size: 11px;
+    padding: 8px;
+  }
 }
 
 
