@@ -10,7 +10,7 @@ body {
   background-attachment: scroll;
   overflow-x: auto;
   overflow-y: auto;
-  height: 100vh;
+  height: 105vh;
   overflow: auto;
 
 }
@@ -497,3 +497,4 @@ body.view-only .seat {
     white-space: nowrap;
   }
 }
+
