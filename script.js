@@ -98,14 +98,30 @@ function listenSeat(seatId, el) {
   });
 }
 
-/* ================== RESET MAP ================== */
+/* ================== RESET MAP – THEO MAP HIỆN TẠI ================== */
 if (!VIEW_ONLY) {
   const btn = document.getElementById("resetSeatsBtn");
+
   if (btn) {
-    btn.onclick = () => {
-      if (confirm("RESET toàn bộ map ghế?")) {
-        db.ref(`seats/${window.MAP_KEY}`).remove();
+    btn.addEventListener("click", () => {
+
+      if (!window.MAP_KEY) {
+        alert("Chưa chọn map!");
+        return;
       }
-    };
+
+      if (confirm("Bạn có muốn reset map?")) {
+
+        // xóa toàn bộ ghế của map đang mở
+        db.ref("seats/" + window.MAP_KEY).remove()
+          .then(() => {
+            alert("Đã reset xong map.");
+          })
+          .catch(err => {
+            alert("Lỗi reset: " + err.message);
+          });
+      }
+    });
   }
 }
+
