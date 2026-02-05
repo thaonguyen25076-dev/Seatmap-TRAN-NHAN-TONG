@@ -99,6 +99,9 @@
 
     document.getElementById("mapSelect").style.display = "none";
     document.getElementById("mainLayout").style.display = "flex";
+    document.getElementById("statBtn").style.display = "block";
+updateStat();
+
 
     initSeatMap();
   }
@@ -133,6 +136,30 @@
 <div class="bottom-footer">
   TRUNG TÂM NGHỆ THUẬT - GIẢI TRÍ IONAH / 67 - 69, TRẦN NHÂN TÔNG, HAI BÀ TRƯNG, HÀ NỘI
 </div>
+<!-- ===== NÚT THỐNG KÊ ===== -->
+<div id="statBtn" class="stat-btn" onclick="openStat()" style="display:none">
+  📊 THỐNG KÊ
+</div>
+
+<!-- ===== POPUP THỐNG KÊ ===== -->
+<div id="statModal" class="stat-modal" style="display:none">
+  <div class="stat-box">
+    <h3> THỐNG KÊ BÁN VÉ</h3>
+
+    <div class="stat-row">Vé VIP: <b id="vipCount">0</b> vé</div>
+    <div class="stat-row">Vé Thường: <b id="normalCount">0</b> vé</div>
+
+    <hr>
+
+    <div class="stat-row"> Tiền Vé VIP: <b id="vipMoney">0</b> đ</div>
+    <div class="stat-row"> Tiền Vé Thường: <b id="normalMoney">0</b> đ</div>
+
+    <div class="stat-total"> TỔNG: <span id="totalMoney">0</span> đ</div>
+
+    <button onclick="closeStat()">ĐÓNG</button>
+  </div>
+</div>
+
 
 <script src="script.js"></script>
 </body>

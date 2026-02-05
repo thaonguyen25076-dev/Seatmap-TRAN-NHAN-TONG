@@ -44,6 +44,8 @@ window.initSeatMap = function () {
     }
 
     listenSeat(seatId, seat);
+    updateStat();
+
     bottomRow.appendChild(seat);
   }
 };
@@ -124,4 +126,50 @@ if (!VIEW_ONLY) {
     });
   }
 }
+/* ===== GIÁ VÉ ===== */
+const PRICE_VIP = 400000;
+const PRICE_NORMAL = 300000;
 
+/* ===== MỞ / ĐÓNG ===== */
+function openStat() {
+  document.getElementById("statModal").style.display = "flex";
+}
+
+function closeStat() {
+  document.getElementById("statModal").style.display = "none";
+}
+
+/* ===== PHÂN LOẠI GHẾ VIP ===== */
+function isVipSeat(seatId) {
+  const row = seatId[0];
+  const num = parseInt(seatId.slice(1));
+  return row <= "H" && num >= 5 && num <= 13;
+}
+
+/* ===== TÍNH TOÁN ===== */
+function updateStat() {
+  if (!window.MAP_KEY) return;
+
+  db.ref("seats/" + window.MAP_KEY).once("value").then(snap => {
+    let vip = 0;
+    let normal = 0;
+
+    snap.forEach(s => {
+      if (isVipSeat(s.key)) vip++;
+      else normal++;
+    });
+
+    document.getElementById("vipCount").textContent = vip;
+    document.getElementById("normalCount").textContent = normal;
+
+    document.getElementById("vipMoney").textContent =
+      (vip * PRICE_VIP).toLocaleString("vi-VN");
+
+    document.getElementById("normalMoney").textContent =
+      (normal * PRICE_NORMAL).toLocaleString("vi-VN");
+
+    document.getElementById("totalMoney").textContent =
+      ((vip * PRICE_VIP) + (normal * PRICE_NORMAL)).toLocaleString("vi-VN");
+  });
+}
+document.getElementById("statBtn").style.display = "none";

@@ -421,20 +421,20 @@ body.view-only .seat {
     overflow-x: auto;
   }
 
-  /* sân khấu vừa màn hình */
+  /* sân khấu */
   .stage {
     width: 90%;
     height: 70px;
     font-size: 17px;
   }
 
-  /* khung ghế gọn hơn */
+  /* khung ghế */
   .seat-wrapper {
     margin-top: 40px;
     padding: 6px;
   }
 
-  /* ghế nhỏ hơn một chút cho vừa màn */
+  /* ghế */
   .seat {
     width: 22px;
     height: 22px;
@@ -448,7 +448,7 @@ body.view-only .seat {
     overflow-x: auto;
   }
 
-  /* vé nằm dưới – đúng chuẩn mobile */
+  /* vé nằm dưới */
   .ticket-list {
     width: 92%;
     max-width: 360px;
@@ -508,5 +508,70 @@ body.view-only .seat {
   .hall {
     overflow: visible !important;
   }
+}
+/* ===== NÚT THỐNG KÊ  ===== */
+.stat-btn {
+  position: fixed;
+  right: 20px;
+  bottom: 90px;
+  z-index: 999;
+  background: linear-gradient(135deg, #f1c40f, #e67e22);
+  color: #000;
+  padding: 14px 18px;
+  border-radius: 50px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.4);
+}
+
+/* ===== POPUP ===== */
+.stat-modal {
+  position: absolute;
+  left: 100px;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.stat-box {
+  background: #1e1e1e;
+  color: #fff;
+  padding: 24px 30px;
+  border-radius: 12px;
+  width: 320px;
+  text-align: left;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+}
+
+.stat-box h3 {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.stat-row {
+  margin: 8px 0;
+  font-size: 15px;
+}
+
+.stat-total {
+  margin-top: 12px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #f1c40f;
+}
+
+.stat-box button {
+  margin-top: 16px;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background: #c0392b;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
 }
 
