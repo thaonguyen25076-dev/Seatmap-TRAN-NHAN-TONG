@@ -16,21 +16,17 @@
 <div class="top-header">
   LIÊN ĐOÀN XIẾC VIỆT NAM & NHÀ HÁT SÂN KHẤU TRUYỀN THỐNG QUỐC GIA VIỆT NAM
 </div>
-<!-- ===== TRANG CHỌN MAP ===== -->
+
+<!-- ===== TRANG CHỌN NGÀY ===== -->
 <div id="mapSelect">
 
- <h2 class="map-title">
-  SƠ ĐỒ GHẾ VỞ DIỄN
-  <span>TRẦN NHÂN TÔNG</span>
-</h2>
+  <h2 class="map-title">
+    SƠ ĐỒ GHẾ VỞ DIỄN
+    <span>TRẦN NHÂN TÔNG</span>
+  </h2>
 
-  <div class="map-btn-group">
-    <button class="map-btn" onclick="selectMap('2026-01-31')">31 - 01 - 2026</button>
-    <button class="map-btn" onclick="selectMap('2026-02-14')">14 - 03 - 2026</button>
-    <button class="map-btn" onclick="selectMap('2026-02-28')">28 - 03 - 2026</button>
-  </div>
-</div>
-</div>
+  <!-- DANH SÁCH NGÀY (LOAD TỪ FIREBASE) -->
+  <div class="map-btn-group" id="dayList"></div>
 
 </div>
 
@@ -39,19 +35,19 @@
 
   <div class="hall">
 
-  <div class="stage">SÂN KHẤU</div>
+    <div class="stage">SÂN KHẤU</div>
+    <div class="entrance">CỬA VÀO →</div>
 
-  <div class="entrance">CỬA VÀO →</div>
+    <div class="seat-wrapper" id="seatWrapper"></div>
 
-  <div class="seat-wrapper" id="seatWrapper"></div>
+    <div class="row bottom">
+      <div class="row-label">N</div>
+      <div class="bottom-row" id="bottomRow"></div>
+      <div class="row-label">N</div>
+    </div>
 
-  <div class="row bottom">
-    <div class="row-label">N</div>
-    <div class="bottom-row" id="bottomRow"></div>
-    <div class="row-label">N</div>
   </div>
 
-</div>
   <div class="ticket-list">
     <div class="ticket-title">HẠNG VÉ</div>
 
@@ -73,6 +69,7 @@
       </div>
     </div>
   </div>
+
 </div>
 
 <!-- ===== FIREBASE ===== -->
@@ -95,43 +92,73 @@
 </script>
 
 <script>
-  function selectMap(key) {
-    window.MAP_KEY = key;
+/* ================== 3 NGÀY GỐC – GIỮ NGUYÊN ================== */
+const DEFAULT_DAYS = [
+  "2026-01-31",
+  "2026-02-14",
+  "2026-02-28"
+];
 
-    // đẩy state vào history
-    history.pushState({ map: key }, "", "#map-" + key);
-
-    document.getElementById("mapSelect").style.display = "none";
-    document.getElementById("mainLayout").style.display = "flex";
-
-    initSeatMap();
-  }
-</script>
-<script>
-  window.addEventListener("popstate", function (e) {
-
-    // nếu quay về trạng thái KHÔNG có map
-    if (!e.state || !e.state.map) {
-
-      // ẩn sơ đồ
-      document.getElementById("mainLayout").style.display = "none";
-
-      // hiện trang chọn ngày
-      document.getElementById("mapSelect").style.display = "block";
-
-      // xóa map hiện tại
-      window.MAP_KEY = null;
-
-      return;
+/* ================== ĐẢM BẢO NGÀY GỐC LUÔN TỒN TẠI ================== */
+DEFAULT_DAYS.forEach(day => {
+  db.ref("maps/" + day).get().then(snap => {
+    if (!snap.exists()) {
+      db.ref("maps/" + day).set(true);
     }
-
-    // nếu quay lại map khác
-    window.MAP_KEY = e.state.map;
-    document.getElementById("mapSelect").style.display = "none";
-    document.getElementById("mainLayout").style.display = "flex";
-
-    initSeatMap();
   });
+});
+
+/* ================== LOAD DANH SÁCH NGÀY ================== */
+const dayList = document.getElementById("dayList");
+
+db.ref("maps").on("value", snap => {
+  dayList.innerHTML = "";
+
+  if (!snap.exists()) {
+    dayList.innerHTML = "<p>Chưa có ngày diễn</p>";
+    return;
+  }
+
+  const days = Object.keys(snap.val()).sort();
+
+  days.forEach(day => {
+    const btn = document.createElement("button");
+    btn.className = "map-btn";
+
+    const [y, m, d] = day.split("-");
+    btn.innerText = `${d} - ${m} - ${y}`;
+
+    btn.onclick = () => selectMap(day);
+    dayList.appendChild(btn);
+  });
+});
+</script>
+
+<script>
+function selectMap(key) {
+  window.MAP_KEY = key;
+
+  history.pushState({ map: key }, "", "#map-" + key);
+
+  document.getElementById("mapSelect").style.display = "none";
+  document.getElementById("mainLayout").style.display = "flex";
+
+  initSeatMap();
+}
+
+window.addEventListener("popstate", function (e) {
+  if (!e.state || !e.state.map) {
+    document.getElementById("mainLayout").style.display = "none";
+    document.getElementById("mapSelect").style.display = "block";
+    window.MAP_KEY = null;
+    return;
+  }
+
+  window.MAP_KEY = e.state.map;
+  document.getElementById("mapSelect").style.display = "none";
+  document.getElementById("mainLayout").style.display = "flex";
+  initSeatMap();
+});
 </script>
 
 <div class="bottom-footer">

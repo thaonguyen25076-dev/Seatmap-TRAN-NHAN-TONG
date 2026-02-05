@@ -10,45 +10,57 @@
 <div class="top-header">
   LIÊN ĐOÀN XIẾC VIỆT NAM & NHÀ HÁT SÂN KHẤU TRUYỀN THỐNG QUỐC GIA VIỆT NAM
 </div>
+
 <!-- ===== TRANG CHỌN MAP ===== -->
 <div id="mapSelect">
+  <h2 class="map-title">
+    SƠ ĐỒ GHẾ VỞ DIỄN
+    <span>TRẦN NHÂN TÔNG</span>
+  </h2>
 
- <h2 class="map-title">
-  SƠ ĐỒ GHẾ VỞ DIỄN
-  <span>TRẦN NHÂN TÔNG</span>
-</h2>
-
-  <div class="map-btn-group">
+  <div class="map-btn-group" id="mapBtnGroup">
     <button class="map-btn" onclick="selectMap('2026-01-31')">31 - 01 - 2026</button>
     <button class="map-btn" onclick="selectMap('2026-02-14')">14 - 03 - 2026</button>
     <button class="map-btn" onclick="selectMap('2026-02-28')">28 - 03 - 2026</button>
   </div>
+
+  <!-- NÚT TẠO NGÀY -->
+  <button class="map-btn" style="background:#2ecc71" onclick="openCreateDay()">
+    ➕ TẠO NGÀY DIỄN
+  </button>
 </div>
 
-
-</div>
-
+<!-- ===== SƠ ĐỒ GHẾ ===== -->
 <div class="layout" id="mainLayout" style="display:none">
-
   <div class="hall">
     <div class="reset-map">
-  <button id="resetSeatsBtn">RESET MAP</button>
-</div>
+      <button id="resetSeatsBtn">RESET MAP</button>
+      <button onclick="deleteCurrentDay()" style="
+  padding:10px 16px;
+  margin-top:8px;
+  background:#555;
+  color:#fff;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  font-weight:bold;
+">
+  ❌ XÓA NGÀY DIỄN
+</button>
 
+    </div>
 
-  <div class="stage">SÂN KHẤU</div>
+    <div class="stage">SÂN KHẤU</div>
+    <div class="entrance">CỬA VÀO →</div>
+    <div class="seat-wrapper" id="seatWrapper"></div>
 
-  <div class="entrance">CỬA VÀO →</div>
-
-  <div class="seat-wrapper" id="seatWrapper"></div>
-
-  <div class="row bottom">
-    <div class="row-label">N</div>
-    <div class="bottom-row" id="bottomRow"></div>
-    <div class="row-label">N</div>
+    <div class="row bottom">
+      <div class="row-label">N</div>
+      <div class="bottom-row" id="bottomRow"></div>
+      <div class="row-label">N</div>
+    </div>
   </div>
 
-</div>
   <div class="ticket-list">
     <div class="ticket-title">HẠNG VÉ</div>
 
@@ -57,7 +69,6 @@
       <div>
         <div class="ticket-name">STANDARD</div>
         <div class="ticket-price">300,000đ</div>
-        <div class="ticket-note">Chọn từ sơ đồ ghế</div>
       </div>
     </div>
 
@@ -66,12 +77,12 @@
       <div>
         <div class="ticket-name">VIP</div>
         <div class="ticket-price">400,000đ</div>
-        <div class="ticket-note">Chọn từ sơ đồ ghế</div>
       </div>
     </div>
   </div>
 </div>
 
+<!-- ===== FIREBASE ===== -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
@@ -90,81 +101,128 @@
   const db = firebase.database();
 </script>
 
+<!-- ===== LOAD DANH SÁCH NGÀY ===== -->
 <script>
-  function selectMap(key) {
-    window.MAP_KEY = key;
+const mapGroup = document.getElementById("mapBtnGroup");
 
-    // đẩy state vào history
-    history.pushState({ map: key }, "", "#map-" + key);
+db.ref("maps").on("value", snap => {
+  mapGroup.innerHTML = `
+    <button class="map-btn" onclick="selectMap('2026-01-31')">31 - 01 - 2026</button>
+    <button class="map-btn" onclick="selectMap('2026-02-14')">14 - 03 - 2026</button>
+    <button class="map-btn" onclick="selectMap('2026-02-28')">28 - 03 - 2026</button>
+  `;
 
-    document.getElementById("mapSelect").style.display = "none";
-    document.getElementById("mainLayout").style.display = "flex";
-    document.getElementById("statBtn").style.display = "block";
-updateStat();
+  snap.forEach(s => {
+    const d = s.key;
+    if (
+      d === "2026-01-31" ||
+      d === "2026-02-14" ||
+      d === "2026-02-28"
+    ) return;
 
-
-    initSeatMap();
-  }
-</script>
-<script>
-  window.addEventListener("popstate", function (e) {
-
-    // nếu quay về trạng thái KHÔNG có map
-    if (!e.state || !e.state.map) {
-
-      // ẩn sơ đồ
-      document.getElementById("mainLayout").style.display = "none";
-
-      // hiện trang chọn ngày
-      document.getElementById("mapSelect").style.display = "block";
-
-      // xóa map hiện tại
-      window.MAP_KEY = null;
-
-      return;
-    }
-
-    // nếu quay lại map khác
-    window.MAP_KEY = e.state.map;
-    document.getElementById("mapSelect").style.display = "none";
-    document.getElementById("mainLayout").style.display = "flex";
-
-    initSeatMap();
+    const btn = document.createElement("button");
+    btn.className = "map-btn";
+    btn.textContent = d.split("-").reverse().join(" - ");
+    btn.onclick = () => selectMap(d);
+    mapGroup.appendChild(btn);
   });
+});
 </script>
 
+<!-- ===== CHỌN MAP ===== -->
+<script>
+function selectMap(key) {
+  window.MAP_KEY = key;
+  history.pushState({ map: key }, "", "#map-" + key);
+
+  document.getElementById("mapSelect").style.display = "none";
+  document.getElementById("mainLayout").style.display = "flex";
+  document.getElementById("statBtn").style.display = "block";
+
+  updateStat();
+  initSeatMap();
+}
+</script>
+
+<!-- ===== POPSTATE ===== -->
+<script>
+window.addEventListener("popstate", e => {
+  if (!e.state || !e.state.map) {
+    document.getElementById("mainLayout").style.display = "none";
+    document.getElementById("mapSelect").style.display = "block";
+    window.MAP_KEY = null;
+    return;
+  }
+
+  window.MAP_KEY = e.state.map;
+  document.getElementById("mapSelect").style.display = "none";
+  document.getElementById("mainLayout").style.display = "flex";
+  initSeatMap();
+});
+</script>
+
+<!-- ===== FOOTER ===== -->
 <div class="bottom-footer">
-  TRUNG TÂM NGHỆ THUẬT - GIẢI TRÍ IONAH / 67 - 69, TRẦN NHÂN TÔNG, HAI BÀ TRƯNG, HÀ NỘI
+  TRUNG TÂM NGHỆ THUẬT - GIẢI TRÍ IONAH / 67 - 69, TRẦN NHÂN TÔNG, HÀ NỘI
 </div>
+
 <!-- ===== NÚT THỐNG KÊ ===== -->
 <div id="statBtn" class="stat-btn" onclick="openStat()" style="display:none">
   📊 THỐNG KÊ
 </div>
 
-<!-- ===== POPUP THỐNG KÊ ===== -->
-<div id="statModal" class="stat-modal" style="display:none">
+<!-- ===== POPUP TẠO NGÀY ===== -->
+<div id="createDayModal" class="stat-modal" style="display:none">
   <div class="stat-box">
-    <h3> THỐNG KÊ BÁN VÉ</h3>
-
-    <div class="stat-row">Vé VIP: <b id="vipCount">0</b> vé</div>
-    <div class="stat-row">Vé Thường: <b id="normalCount">0</b> vé</div>
-    <div class="stat-row">Ghế đã bán: <b id="soldCount">0</b> ghế</div>
-    <div class="stat-row">Ghế còn tồn: <b id="remainCount">0</b> ghế</div>
-    <div class="stat-row">Tỉ lệ lấp: <b id="fillRate">0</b>%</div>
-
-    <hr>
-
-    <div class="stat-row"> Tiền Vé VIP: <b id="vipMoney">0</b> đ</div>
-    <div class="stat-row"> Tiền Vé Thường: <b id="normalMoney">0</b> đ</div>
-    
-
-
-    <div class="stat-total"> TỔNG: <span id="totalMoney">0</span> đ</div>
-
-    <button onclick="closeStat()">ĐÓNG</button>
+    <h3>TẠO NGÀY DIỄN</h3>
+    <input type="date" id="newDay" style="width:100%;padding:10px;margin-bottom:12px">
+    <button onclick="createDay()" style="background:#27ae60">TẠO</button>
+    <button onclick="closeCreateDay()">HỦY</button>
   </div>
 </div>
 
+<script>
+function openCreateDay() {
+  document.getElementById("createDayModal").style.display = "flex";
+}
+function closeCreateDay() {
+  document.getElementById("createDayModal").style.display = "none";
+}
+function createDay() {
+  const date = document.getElementById("newDay").value;
+  if (!date) return alert("Vui lòng chọn ngày");
+  db.ref("maps/" + date).set(true);
+  closeCreateDay();
+}
+</script>
+<script>
+function deleteCurrentDay() {
+  if (!window.MAP_KEY) {
+    alert("Chưa chọn ngày!");
+    return;
+  }
+
+  if (!confirm("XÓA TOÀN BỘ NGÀY DIỄN NÀY?\nGhế + dữ liệu sẽ mất vĩnh viễn!")) {
+    return;
+  }
+
+  const day = window.MAP_KEY;
+
+  // xóa map ngày
+  db.ref("maps/" + day).remove();
+
+  // xóa toàn bộ ghế của ngày đó
+  db.ref("seats/" + day).remove();
+
+  alert("Đã xóa ngày diễn!");
+
+  // quay về màn chọn ngày
+  window.MAP_KEY = null;
+  document.getElementById("mainLayout").style.display = "none";
+  document.getElementById("mapSelect").style.display = "block";
+  history.pushState({}, "", location.pathname);
+}
+</script>
 
 <script src="script.js"></script>
 </body>
