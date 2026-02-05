@@ -167,9 +167,34 @@ window.addEventListener("popstate", e => {
 </div>
 
 <!-- ===== NÚT THỐNG KÊ ===== -->
+ 
 <div id="statBtn" class="stat-btn" onclick="openStat()" style="display:none">
   📊 THỐNG KÊ
 </div>
+<!-- ===== POPUP THỐNG KÊ ===== -->
+<div id="statModal" class="stat-modal" style="display:none">
+  <div class="stat-box">
+    <h3>THỐNG KÊ BÁN VÉ</h3>
+
+    <div class="stat-row">Vé VIP: <b id="vipCount">0</b> vé</div>
+    <div class="stat-row">Vé Thường: <b id="normalCount">0</b> vé</div>
+    <div class="stat-row">Ghế đã bán: <b id="soldCount">0</b> ghế</div>
+    <div class="stat-row">Ghế còn tồn: <b id="remainCount">0</b> ghế</div>
+    <div class="stat-row">Tỉ lệ lấp: <b id="fillRate">0</b>%</div>
+
+    <hr>
+
+    <div class="stat-row">Tiền vé VIP: <b id="vipMoney">0</b> đ</div>
+    <div class="stat-row">Tiền vé thường: <b id="normalMoney">0</b> đ</div>
+
+    <div class="stat-total">
+      TỔNG: <span id="totalMoney">0</span> đ
+    </div>
+
+    <button onclick="closeStat()">ĐÓNG</button>
+  </div>
+</div>
+
 
 <!-- ===== POPUP TẠO NGÀY ===== -->
 <div id="createDayModal" class="stat-modal" style="display:none">
@@ -221,6 +246,16 @@ function deleteCurrentDay() {
   document.getElementById("mainLayout").style.display = "none";
   document.getElementById("mapSelect").style.display = "block";
   history.pushState({}, "", location.pathname);
+}
+</script>
+<script>
+function openStat() {
+  document.getElementById("statModal").style.display = "flex";
+  updateStat();
+}
+
+function closeStat() {
+  document.getElementById("statModal").style.display = "none";
 }
 </script>
 
