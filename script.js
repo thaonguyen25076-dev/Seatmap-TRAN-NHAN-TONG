@@ -147,6 +147,8 @@ function isVipSeat(seatId) {
 }
 
 /* ===== TÍNH TOÁN ===== */
+const TOTAL_SEATS = 241;
+
 function updateStat() {
   if (!window.MAP_KEY) return;
 
@@ -159,6 +161,10 @@ function updateStat() {
       else normal++;
     });
 
+    const sold = vip + normal;
+    const remain = TOTAL_SEATS - sold;
+    const fillRate = ((sold / TOTAL_SEATS) * 100).toFixed(1);
+
     document.getElementById("vipCount").textContent = vip;
     document.getElementById("normalCount").textContent = normal;
 
@@ -170,6 +176,12 @@ function updateStat() {
 
     document.getElementById("totalMoney").textContent =
       ((vip * PRICE_VIP) + (normal * PRICE_NORMAL)).toLocaleString("vi-VN");
+
+    // 👇 MỚI
+    document.getElementById("soldCount").textContent = sold;
+    document.getElementById("remainCount").textContent = remain;
+    document.getElementById("fillRate").textContent = fillRate;
   });
 }
+
 document.getElementById("statBtn").style.display = "none";
