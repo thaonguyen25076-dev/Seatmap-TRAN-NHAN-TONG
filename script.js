@@ -1,3 +1,4 @@
+
 const VIEW_ONLY = window.VIEW_ONLY === true;
 
 function seatPath(seatId) {
@@ -136,11 +137,9 @@ function openStat() {
 }
 
 function closeStat() {
-    const statBtn = document.getElementById("statBtn");
+ const statBtn = document.getElementById("statBtn");
 if (statBtn) {
   statBtn.style.display = "none";
-}
-
 }
 
 }
@@ -191,6 +190,3 @@ function updateStat() {
 }
 
 document.getElementById("statBtn").style.display = "none";
-
-
-
