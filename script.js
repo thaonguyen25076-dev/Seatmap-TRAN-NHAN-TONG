@@ -136,7 +136,11 @@ function openStat() {
 }
 
 function closeStat() {
-  document.getElementById("statModal").style.display = "none";
+  const statBtn = document.getElementById("statBtn");
+if (statBtn) {
+  statBtn.style.display = "none";
+}
+
 }
 
 /* ===== PHÂN LOẠI GHẾ VIP ===== */
@@ -185,3 +189,4 @@ function updateStat() {
 }
 
 document.getElementById("statBtn").style.display = "none";
+
