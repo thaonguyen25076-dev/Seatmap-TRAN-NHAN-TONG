@@ -133,15 +133,16 @@ const PRICE_NORMAL = 300000;
 
 /* ===== MỞ / ĐÓNG ===== */
 function openStat() {
-  document.getElementById("statModal").style.display = "flex";
+  const modal = document.getElementById("statModal");
+  if (modal) {
+    modal.style.display = "flex";
+  }
 }
-
 function closeStat() {
- const statBtn = document.getElementById("statBtn");
-if (statBtn) {
-  statBtn.style.display = "none";
-}
-
+  const modal = document.getElementById("statModal");
+  if (modal) {
+    modal.style.display = "none";
+  }
 }
 
 /* ===== PHÂN LOẠI GHẾ VIP ===== */

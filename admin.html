@@ -7,6 +7,7 @@
 </head>
 
 <body>
+  
 <div class="top-header">
   LIÊN ĐOÀN XIẾC VIỆT NAM & NHÀ HÁT SÂN KHẤU TRUYỀN THỐNG QUỐC GIA VIỆT NAM
 </div>
@@ -152,6 +153,9 @@ window.addEventListener("popstate", e => {
   if (!e.state || !e.state.map) {
     document.getElementById("mainLayout").style.display = "none";
     document.getElementById("mapSelect").style.display = "block";
+    document.getElementById("statBtn").style.display = "block";
+    document.getElementById("statBtn").style.display = "none";
+
     window.MAP_KEY = null;
     return;
   }
