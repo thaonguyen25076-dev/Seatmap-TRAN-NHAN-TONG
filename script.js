@@ -74,33 +74,37 @@ function createBlock(nums, red, row) {
     seat.textContent = n;
 
     const seatId = row + n;
+    const isCenter = n >= 5 && n <= 13;
 
-    /* ===== VỞ 9/3 ===== */
+    /* ================== VỞ 9/3 ================== */
     if (window.MAP_KEY === "show2") {
 
-  const isCenter = n >= 5 && n <= 13;
+      if (red && isCenter) {
+        seat.classList.add("center-red");
+      }
+      else if (isCenter && row >= "I" && row <= "M") {
+        seat.classList.add("vip400");
+      }
+      else if (!isCenter && row >= "A" && row <= "E") {
+        seat.classList.add("vip400");
+      }
+      else {
+        seat.classList.add("normal300");
+      }
 
-  /* ===== ƯU TIÊN 1: GHẾ ĐỎ (KHÔNG ĐƯỢC ĐỤNG) ===== */
-  if (red && isCenter) {
-    seat.classList.add("center-red");
-  }
+    }
 
-  /* ===== ƯU TIÊN 2: DÃY GIỮA I → M (VÀNG) ===== */
-  else if (isCenter && row >= "I" && row <= "M") {
-    seat.classList.add("vip400");
-  }
+    /* ================== TRẦN NHÂN TÔNG ================== */
+    else {
 
-  /* ===== ƯU TIÊN 3: 2 BÊN CÁNH A → E (VÀNG) ===== */
-  else if (!isCenter && row >= "A" && row <= "E") {
-    seat.classList.add("vip400");
-  }
+      if (red && isCenter) {
+        seat.classList.add("center-red"); // ghế đỏ giữa
+      }
+      else {
+        seat.classList.add("normal300"); // còn lại thường
+      }
 
-  /* ===== CÒN LẠI ===== */
-  else {
-    seat.classList.add("normal300");
-  }
-
-}
+    }
 
     if (!VIEW_ONLY) {
       seat.addEventListener("click", () => toggleSeat(seatId));
