@@ -1,4 +1,3 @@
-
 const VIEW_ONLY = window.VIEW_ONLY === true;
 
 function seatPath(seatId) {
@@ -9,8 +8,9 @@ const rows = "ABCDEFGHIJKLM".split("");
 const seatWrapper = document.getElementById("seatWrapper");
 const bottomRow = document.getElementById("bottomRow");
 
-/* ================== KHỞI TẠO SƠ ĐỒ ================== */
+/* ================== KHỞI TẠO ================== */
 window.initSeatMap = function () {
+  if (!window.MAP_KEY) return;
 
   seatWrapper.innerHTML = "";
   bottomRow.innerHTML = "";
@@ -40,18 +40,23 @@ window.initSeatMap = function () {
     seat.textContent = i;
 
     const seatId = "N" + i;
+
+    if (window.MAP_KEY === "show2") {
+      seat.classList.add("normal300");
+    }
+
     if (!VIEW_ONLY) {
       seat.addEventListener("click", () => toggleSeat(seatId));
     }
 
     listenSeat(seatId, seat);
-    updateStat();
-
     bottomRow.appendChild(seat);
   }
+
+  updateStat();
 };
 
-/* ================== TIỆN ÍCH ================== */
+/* ================== UI ================== */
 function createLabel(text) {
   const d = document.createElement("div");
   d.className = "row-label";
@@ -69,7 +74,33 @@ function createBlock(nums, red, row) {
     seat.textContent = n;
 
     const seatId = row + n;
-    if (red) seat.classList.add("center-red");
+
+    /* ===== VỞ 9/3 ===== */
+    if (window.MAP_KEY === "show2") {
+
+  const isCenter = n >= 5 && n <= 13;
+
+  /* ===== ƯU TIÊN 1: GHẾ ĐỎ (KHÔNG ĐƯỢC ĐỤNG) ===== */
+  if (red && isCenter) {
+    seat.classList.add("center-red");
+  }
+
+  /* ===== ƯU TIÊN 2: DÃY GIỮA I → M (VÀNG) ===== */
+  else if (isCenter && row >= "I" && row <= "M") {
+    seat.classList.add("vip400");
+  }
+
+  /* ===== ƯU TIÊN 3: 2 BÊN CÁNH A → E (VÀNG) ===== */
+  else if (!isCenter && row >= "A" && row <= "E") {
+    seat.classList.add("vip400");
+  }
+
+  /* ===== CÒN LẠI ===== */
+  else {
+    seat.classList.add("normal300");
+  }
+
+}
 
     if (!VIEW_ONLY) {
       seat.addEventListener("click", () => toggleSeat(seatId));
@@ -88,9 +119,13 @@ function toggleSeat(seatId) {
 
   ref.get().then(snap => {
     if (snap.exists()) {
-      if (confirm(`MỞ ghế ${seatId}?`)) ref.remove();
+      if (confirm(`MỞ ghế ${seatId}?`)) {
+        ref.remove().then(updateStat);
+      }
     } else {
-      if (confirm(`KHÓA ghế ${seatId}?`)) ref.set(true);
+      if (confirm(`KHÓA ghế ${seatId}?`)) {
+        ref.set(true).then(updateStat);
+      }
     }
   });
 }
@@ -101,62 +136,39 @@ function listenSeat(seatId, el) {
   });
 }
 
-/* ================== RESET MAP – THEO MAP HIỆN TẠI ================== */
+/* ================== RESET ================== */
 if (!VIEW_ONLY) {
   const btn = document.getElementById("resetSeatsBtn");
 
   if (btn) {
     btn.addEventListener("click", () => {
-
       if (!window.MAP_KEY) {
         alert("Chưa chọn map!");
         return;
       }
 
-      if (confirm("Bạn có muốn reset map?")) {
-
-        // xóa toàn bộ ghế của map đang mở
+      if (confirm("Bạn có muốn reset toàn bộ ghế?")) {
         db.ref("seats/" + window.MAP_KEY).remove()
           .then(() => {
-            alert("Đã reset xong map.");
+            alert("Đã reset!");
+            updateStat();
           })
-          .catch(err => {
-            alert("Lỗi reset: " + err.message);
-          });
+          .catch(err => alert("Lỗi: " + err.message));
       }
     });
   }
 }
-/* ===== GIÁ VÉ ===== */
+
+/* ================== GIÁ ================== */
 const PRICE_VIP = 400000;
 const PRICE_NORMAL = 300000;
-
-/* ===== MỞ / ĐÓNG ===== */
-function openStat() {
-  const modal = document.getElementById("statModal");
-  if (modal) {
-    modal.style.display = "flex";
-  }
-}
-function closeStat() {
-  const modal = document.getElementById("statModal");
-  if (modal) {
-    modal.style.display = "none";
-  }
-}
-
-/* ===== PHÂN LOẠI GHẾ VIP ===== */
-function isVipSeat(seatId) {
-  const row = seatId[0];
-  const num = parseInt(seatId.slice(1));
-  return row <= "H" && num >= 5 && num <= 13;
-}
-
-/* ===== TÍNH TOÁN ===== */
 const TOTAL_SEATS = 241;
 
+/* ================== THỐNG KÊ ================== */
 function updateStat() {
   if (!window.MAP_KEY) return;
+
+  if (!document.getElementById("vipCount")) return;
 
   db.ref("seats/" + window.MAP_KEY).once("value").then(snap => {
     let vip = 0;
@@ -173,6 +185,9 @@ function updateStat() {
 
     document.getElementById("vipCount").textContent = vip;
     document.getElementById("normalCount").textContent = normal;
+    document.getElementById("soldCount").textContent = sold;
+    document.getElementById("remainCount").textContent = remain;
+    document.getElementById("fillRate").textContent = fillRate;
 
     document.getElementById("vipMoney").textContent =
       (vip * PRICE_VIP).toLocaleString("vi-VN");
@@ -182,12 +197,67 @@ function updateStat() {
 
     document.getElementById("totalMoney").textContent =
       ((vip * PRICE_VIP) + (normal * PRICE_NORMAL)).toLocaleString("vi-VN");
-
-    // 👇 MỚI
-    document.getElementById("soldCount").textContent = sold;
-    document.getElementById("remainCount").textContent = remain;
-    document.getElementById("fillRate").textContent = fillRate;
   });
 }
 
-document.getElementById("statBtn").style.display = "none";
+function isVipSeat(seatId) {
+  const row = seatId[0];
+  const num = parseInt(seatId.slice(1));
+  return row <= "H" && num >= 5 && num <= 13;
+}
+
+/* ===== ẨN THỐNG KÊ BÊN KHÁCH ===== */
+const statBtn = document.getElementById("statBtn");
+if (statBtn && VIEW_ONLY) {
+  statBtn.style.display = "none";
+}
+function updateTicketUI() {
+  const cards = document.querySelectorAll(".ticket-card");
+
+  if (cards.length < 2) return;
+
+  const card1 = cards[0];
+  const card2 = cards[1];
+
+  if (window.MAP_KEY === "show2") {
+    
+    card1.querySelector(".ticket-badge").textContent = "C";
+    card1.querySelector(".ticket-badge").className = "ticket-badge blue";
+
+    card1.querySelector(".ticket-name").textContent = "HẠNG C";
+    card1.querySelector(".ticket-price").textContent = "300,000đ";
+
+    card2.querySelector(".ticket-badge").textContent = "B";
+    card2.querySelector(".ticket-badge").className = "ticket-badge gold";
+
+    card2.querySelector(".ticket-name").textContent = "HẠNG B";
+    card2.querySelector(".ticket-price").textContent = "400,000đ";
+
+    if (!document.getElementById("vip500")) {
+      const newCard = card2.cloneNode(true);
+      newCard.id = "vip500";
+
+      newCard.querySelector(".ticket-badge").textContent = "A";
+      newCard.querySelector(".ticket-badge").className = "ticket-badge red";
+
+      newCard.querySelector(".ticket-name").textContent = "HẠNG A";
+      newCard.querySelector(".ticket-price").textContent = "500,000đ";
+
+      card2.parentNode.insertBefore(newCard, card2);
+    }
+
+  } else {
+    const red = document.getElementById("vip500");
+    if (red) red.remove();
+
+    card1.querySelector(".ticket-badge").textContent = "STANDARD";
+    card1.querySelector(".ticket-badge").className = "ticket-badge standard";
+    card1.querySelector(".ticket-name").textContent = "STANDARD";
+    card1.querySelector(".ticket-price").textContent = "300,000đ";
+
+    card2.querySelector(".ticket-badge").textContent = "VIP";
+    card2.querySelector(".ticket-badge").className = "ticket-badge vip";
+    card2.querySelector(".ticket-name").textContent = "VIP";
+    card2.querySelector(".ticket-price").textContent = "400,000đ";
+  }
+}

@@ -7,13 +7,53 @@
 </head>
 
 <body>
-  
+  <!-- ===== TRANG CHÍNH ===== -->
+<div id="homePage" class="home-page">
+
+  <h1 class="home-title">
+    CÁC VỞ DIỄN TẠI TRUNG TÂM NGHỆ THUẬT & GIẢI TRÍ IONAH
+  </h1>
+
+<div class="home-container">
+
+  <!-- ===== VỞ 1 ===== -->
+  <div class="show-card">
+    <img src="KV.jpg">
+
+    <div class="show-info">
+      <div class="show-title">TRẦN NHÂN TÔNG</div>
+      <div class="show-sub">Vở Xiếc kết hợp Cải Lương</div>
+
+      <button class="show-btn" onclick="openShow('tran')">
+        SƠ ĐỒ GHẾ
+      </button>
+    </div>
+  </div>
+
+  <!-- ===== VỞ 2 ===== -->
+  <div class="show-card">
+    <img src="BG.jpg">
+
+    <div class="show-info">
+      <div class="show-title">9/3</div>
+      <div class="show-sub">Vở Xiếc kết hợp Cải Lương</div>
+
+      <button class="show-btn" onclick="openShow('show2')">
+        SƠ ĐỒ GHẾ
+      </button>
+    </div>
+  </div>
+
+</div>
+
+  </div>
+</div>
 <div class="top-header">
   LIÊN ĐOÀN XIẾC VIỆT NAM & NHÀ HÁT SÂN KHẤU TRUYỀN THỐNG QUỐC GIA VIỆT NAM
 </div>
 
 <!-- ===== TRANG CHỌN MAP ===== -->
-<div id="mapSelect">
+<div id="mapSelect" style="display:none">
   <h2 class="map-title">
     SƠ ĐỒ GHẾ VỞ DIỄN
     <span>TRẦN NHÂN TÔNG</span>
@@ -144,6 +184,7 @@ function selectMap(key) {
 
   updateStat();
   initSeatMap();
+  updateTicketUI();
 }
 </script>
 
@@ -264,7 +305,33 @@ function closeStat() {
   document.getElementById("statModal").style.display = "none";
 }
 </script>
+<script>
+function enterSeatMap() {
+  document.getElementById("homePage").style.display = "none";
+  document.getElementById("mapSelect").style.display = "block";
+}
+</script>
+<script>
+function openShow(type) {
+  document.getElementById("homePage").style.display = "none";
 
+  if (type === "tran") {
+    window.MAP_KEY = null;
+    document.getElementById("mapSelect").style.display = "block";
+  }
+
+  if (type === "show2") {
+    document.getElementById("mapSelect").style.display = "none";
+    document.getElementById("mainLayout").style.display = "flex";
+
+    window.MAP_KEY = "show2";
+
+    updateTicketUI(); // ✅ PHẢI đặt sau MAP_KEY
+    initSeatMap();
+  }
+}
+</script>
+</script>
 <script src="script.js"></script>
 </body>
 </html>

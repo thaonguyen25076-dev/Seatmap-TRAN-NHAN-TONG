@@ -7,10 +7,54 @@
 </head>
 
 <body>
+  <script>
+  document.body.classList.add("view-only");
+</script>
+<!-- ===== TRANG CHÍNH ===== -->
+<div id="homePage" class="home-page">
 
+  <h1 class="home-title">
+    CÁC VỞ DIỄN TẠI TRUNG TÂM NGHỆ THUẬT & GIẢI TRÍ IONAH
+  </h1>
+
+ <div class="home-container">
+
+  <!-- ===== VỞ 1 ===== -->
+  <div class="show-card">
+    <img src="KV.jpg">
+
+    <div class="show-info">
+      <div class="show-title">TRẦN NHÂN TÔNG</div>
+      <div class="show-sub">Vở Xiếc kết hợp Cải Lương</div>
+
+      <button class="show-btn" onclick="openShow('tran')">
+        SƠ ĐỒ GHẾ
+      </button>
+    </div>
+  </div>
+
+  <!-- ===== VỞ 2 ===== -->
+  <div class="show-card">
+    <img src="BG.jpg">
+
+    <div class="show-info">
+      <div class="show-title">9/3</div>
+      <div class="show-sub">Vở diễn đặc biệt</div>
+
+      <button class="show-btn" onclick="openShow('show2')">
+        SƠ ĐỒ GHẾ
+      </button>
+    </div>
+  </div>
+
+</div>
+
+  </div>
+</div>
 <!-- 🔒 CHỈ XEM – KHÁCH -->
 <script>
-  window.VIEW_ONLY = true;
+ const isAdmin = location.href.includes("admin");
+window.VIEW_ONLY = !isAdmin;
 </script>
 
 <div class="top-header">
@@ -18,7 +62,7 @@
 </div>
 
 <!-- ===== TRANG CHỌN NGÀY ===== -->
-<div id="mapSelect">
+<div id="mapSelect" style="display:none">
 
   <h2 class="map-title">
     SƠ ĐỒ GHẾ VỞ DIỄN
@@ -144,6 +188,7 @@ function selectMap(key) {
   document.getElementById("mainLayout").style.display = "flex";
 
   initSeatMap();
+  updateTicketUI();
 }
 
 window.addEventListener("popstate", function (e) {
@@ -164,7 +209,37 @@ window.addEventListener("popstate", function (e) {
 <div class="bottom-footer">
   TRUNG TÂM NGHỆ THUẬT - GIẢI TRÍ IONAH / 67 - 69, TRẦN NHÂN TÔNG, HAI BÀ TRƯNG, HÀ NỘI
 </div>
+<script>
+function enterSeatMap() {
+  document.getElementById("homePage").style.display = "none";
+  document.getElementById("mapSelect").style.display = "block";
+}
 
+</script>
+<script>
+function openShow(type) {
+  document.getElementById("homePage").style.display = "none";
+
+  // ===== TRẦN NHÂN TÔNG =====
+  if (type === "tran") {
+    document.getElementById("mapSelect").style.display = "block";
+    document.getElementById("mainLayout").style.display = "none";
+  }
+
+  // ===== VỞ 9/3 =====
+  if (type === "show2") {
+    window.MAP_KEY = "show2"; // ✅ PHẢI ĐẶT TRƯỚC
+
+    document.getElementById("mapSelect").style.display = "none";
+    document.getElementById("mainLayout").style.display = "flex";
+
+    updateTicketUI(); // ✅ GỌI SAU KHI SET KEY
+    initSeatMap();
+  }
+}
+</script>
+</script>
+</script>
 <script src="script.js"></script>
 </body>
 </html>
