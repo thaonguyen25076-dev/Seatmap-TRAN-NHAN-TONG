@@ -176,15 +176,24 @@ db.ref("maps").on("value", snap => {
 <script>
 function selectMap(key) {
   window.MAP_KEY = key;
+
   history.pushState({ map: key }, "", "#map-" + key);
 
   document.getElementById("mapSelect").style.display = "none";
   document.getElementById("mainLayout").style.display = "flex";
+
+  // 👉 luôn hiện nút thống kê
   document.getElementById("statBtn").style.display = "block";
 
-  updateStat();
   initSeatMap();
   updateTicketUI();
+
+  // 👉 chọn hàm thống kê theo vở
+  if (key === "show2") {
+    updateStatShow2(); // 👈 mới
+  } else {
+    updateStat(); // 👈 cũ
+  }
 }
 </script>
 
@@ -221,14 +230,22 @@ window.addEventListener("popstate", e => {
 <!-- ===== POPUP THỐNG KÊ ===== -->
 <div id="statModal" class="stat-modal" style="display:none">
   <div class="stat-box">
-    <h3>THỐNG KÊ BÁN VÉ</h3>
+    <!-- THỐNG KÊ CHUNG -->
+<div id="statNormal">
+  <div class="stat-row">Vé VIP: <b id="vipCount">0</b> vé</div>
+  <div class="stat-row">Vé Thường: <b id="normalCount">0</b> vé</div>
+  <div class="stat-row">Ghế đã bán: <b id="soldCount">0</b> ghế</div>
+  <div class="stat-row">Ghế còn tồn: <b id="remainCount">0</b> ghế</div>
+  <div class="stat-row">Tỉ lệ lấp: <b id="fillRate">0</b>%</div>
+</div>
 
-    <div class="stat-row">Vé VIP: <b id="vipCount">0</b> vé</div>
-    <div class="stat-row">Vé Thường: <b id="normalCount">0</b> vé</div>
-    <div class="stat-row">Ghế đã bán: <b id="soldCount">0</b> ghế</div>
-    <div class="stat-row">Ghế còn tồn: <b id="remainCount">0</b> ghế</div>
-    <div class="stat-row">Tỉ lệ lấp: <b id="fillRate">0</b>%</div>
-
+<!-- THỐNG KÊ RIÊNG 9/3 -->
+<div id="statABC" style="display:none;">
+  <div class="stat-row">Vé A: <b id="vipCount_93">0</b> vé</div>
+  <div class="stat-row">Vé B: <b id="normalCount_93">0</b> vé</div>
+  <div class="stat-row">Vé C: <b id="cCount_93">0</b> vé</div>
+  <div class="stat-row">Ghế đã bán: <b id="soldCount_93">0</b> ghế</div>
+</div>
     <hr>
 
     <div class="stat-row">Tiền vé VIP: <b id="vipMoney">0</b> đ</div>
@@ -298,7 +315,12 @@ function deleteCurrentDay() {
 <script>
 function openStat() {
   document.getElementById("statModal").style.display = "flex";
-  updateStat();
+
+  if (window.MAP_KEY === "show2") {
+    updateStatShow2();
+  } else {
+    updateStat();
+  }
 }
 
 function closeStat() {
@@ -315,18 +337,23 @@ function enterSeatMap() {
 function openShow(type) {
   document.getElementById("homePage").style.display = "none";
 
+  // ===== TRẦN NHÂN TÔNG =====
   if (type === "tran") {
     window.MAP_KEY = null;
     document.getElementById("mapSelect").style.display = "block";
   }
 
+  // ===== VỞ 9/3 =====
   if (type === "show2") {
     document.getElementById("mapSelect").style.display = "none";
     document.getElementById("mainLayout").style.display = "flex";
 
     window.MAP_KEY = "show2";
 
-    updateTicketUI(); // ✅ PHẢI đặt sau MAP_KEY
+    // 🔥 THÊM DÒNG NÀY
+    document.getElementById("statBtn").style.display = "block";
+
+    updateTicketUI();
     initSeatMap();
   }
 }

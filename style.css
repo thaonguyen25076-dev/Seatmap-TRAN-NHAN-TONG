@@ -763,14 +763,13 @@ body.view-only .seat {
   color: #fff !important;
 }
 .ticket-badge.red {
-  background: #e74c3c;
+  background: #f1c40f;
 }
 
 .ticket-badge.gold {
-  background: gold;
-  color: #000;
+  background: #2ecc71
 }
 
 .ticket-badge.blue {
-  background: #46dd8a;
+  background: #e53935
 }

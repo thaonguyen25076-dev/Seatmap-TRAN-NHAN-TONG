@@ -54,6 +54,74 @@ window.initSeatMap = function () {
   }
 
   updateStat();
+  function updateStatShow2() {
+  const ref = db.ref("seats/" + window.MAP_KEY);
+
+  ref.once("value").then(snap => {
+
+    let A = 0;
+    let B = 0;
+    let C = 0;
+
+    snap.forEach(s => {
+      const seatId = s.key;
+
+      const row = seatId[0];
+      const num = parseInt(seatId.slice(1));
+      const isCenter = num >= 5 && num <= 13;
+
+      // 🔴 HẠNG A
+      if (isCenter && row <= "H") {
+        A++;
+      }
+
+      // 🟡 HẠNG B
+      else if (
+        (isCenter && row >= "I" && row <= "M") ||
+        (!isCenter && row >= "A" && row <= "E")
+      ) {
+        B++;
+      }
+
+      // 🟢 HẠNG C
+      else {
+        C++;
+      }
+    });
+
+    const sold = A + B + C;
+    const totalSeats = 241;
+
+    document.getElementById("vipCount").innerText = A;
+    document.getElementById("normalCount").innerText = B;
+    document.getElementById("cCount").innerText = C;
+
+    document.getElementById("soldCount").innerText = sold;
+    document.getElementById("remainCount").innerText = totalSeats - sold;
+
+    const rate = ((sold / totalSeats) * 100).toFixed(1);
+    document.getElementById("fillRate").innerText = rate;
+
+    // 💰 TIỀN
+    const moneyA = A * 500000;
+    const moneyB = B * 400000;
+    const moneyC = C * 300000;
+
+    document.getElementById("vipMoney").innerText = moneyA.toLocaleString();
+    document.getElementById("normalMoney").innerText =
+      (moneyB + moneyC).toLocaleString();
+
+    document.getElementById("totalMoney").innerText =
+      (moneyA + moneyB + moneyC).toLocaleString();
+    if (selectedDate === "2025-03-09") {
+  // thống kê riêng 9/3
+  document.getElementById("vipCount").textContent = vip;
+  document.getElementById("normalCount").textContent = normal;
+  document.getElementById("cCount").textContent = c;
+  document.getElementById("soldCount").textContent = sold;
+}
+  });
+}
 };
 
 /* ================== UI ================== */
@@ -186,12 +254,13 @@ function updateStat() {
     const sold = vip + normal;
     const remain = TOTAL_SEATS - sold;
     const fillRate = ((sold / TOTAL_SEATS) * 100).toFixed(1);
-
+    
     document.getElementById("vipCount").textContent = vip;
     document.getElementById("normalCount").textContent = normal;
     document.getElementById("soldCount").textContent = sold;
     document.getElementById("remainCount").textContent = remain;
     document.getElementById("fillRate").textContent = fillRate;
+    
 
     document.getElementById("vipMoney").textContent =
       (vip * PRICE_VIP).toLocaleString("vi-VN");
@@ -202,6 +271,7 @@ function updateStat() {
     document.getElementById("totalMoney").textContent =
       ((vip * PRICE_VIP) + (normal * PRICE_NORMAL)).toLocaleString("vi-VN");
   });
+  
 }
 
 function isVipSeat(seatId) {
@@ -225,27 +295,27 @@ function updateTicketUI() {
 
   if (window.MAP_KEY === "show2") {
     
-    card1.querySelector(".ticket-badge").textContent = "C";
+    card1.querySelector(".ticket-badge").textContent = "A";
     card1.querySelector(".ticket-badge").className = "ticket-badge blue";
 
-    card1.querySelector(".ticket-name").textContent = "HẠNG C";
-    card1.querySelector(".ticket-price").textContent = "300,000đ";
+    card1.querySelector(".ticket-name").textContent = "HẠNG A";
+    card1.querySelector(".ticket-price").textContent = "500,000đ";
 
-    card2.querySelector(".ticket-badge").textContent = "B";
+    card2.querySelector(".ticket-badge").textContent = "C";
     card2.querySelector(".ticket-badge").className = "ticket-badge gold";
 
-    card2.querySelector(".ticket-name").textContent = "HẠNG B";
-    card2.querySelector(".ticket-price").textContent = "400,000đ";
+    card2.querySelector(".ticket-name").textContent = "HẠNG C";
+    card2.querySelector(".ticket-price").textContent = "300,000đ";
 
     if (!document.getElementById("vip500")) {
       const newCard = card2.cloneNode(true);
       newCard.id = "vip500";
 
-      newCard.querySelector(".ticket-badge").textContent = "A";
+      newCard.querySelector(".ticket-badge").textContent = "B";
       newCard.querySelector(".ticket-badge").className = "ticket-badge red";
 
-      newCard.querySelector(".ticket-name").textContent = "HẠNG A";
-      newCard.querySelector(".ticket-price").textContent = "500,000đ";
+      newCard.querySelector(".ticket-name").textContent = "HẠNG B";
+      newCard.querySelector(".ticket-price").textContent = "400,000đ";
 
       card2.parentNode.insertBefore(newCard, card2);
     }
