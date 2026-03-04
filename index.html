@@ -181,6 +181,10 @@ db.ref("maps").on("value", snap => {
 <script>
 function selectMap(key) {
   window.MAP_KEY = key;
+  document.body.classList.remove("show2-bg");
+  if (key === "show2") {
+    document.body.classList.add("show2-bg");
+  }
 
   history.pushState({ map: key }, "", "#map-" + key);
 

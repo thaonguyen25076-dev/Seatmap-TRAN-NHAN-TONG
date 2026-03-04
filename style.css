@@ -773,3 +773,8 @@ body.view-only .seat {
 .ticket-badge.blue {
   background: #e53935
 }
+/* BG toàn trang cho show2 */
+body.show2 {
+  background: url("BG2.jpg") no-repeat center center fixed;
+  background-size: cover;
+}

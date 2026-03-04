@@ -12,6 +12,9 @@ const bottomRow = document.getElementById("bottomRow");
 window.initSeatMap = function () {
   if (!window.MAP_KEY) return;
 
+if (window.MAP_KEY === "show2") {
+  document.body.classList.add("show2");
+}
   seatWrapper.innerHTML = "";
   bottomRow.innerHTML = "";
 
@@ -114,11 +117,6 @@ window.initSeatMap = function () {
     document.getElementById("totalMoney").innerText =
       (moneyA + moneyB + moneyC).toLocaleString();
     if (selectedDate === "2025-03-09") {
-  // thống kê riêng 9/3
-  document.getElementById("vipCount").textContent = vip;
-  document.getElementById("normalCount").textContent = normal;
-  document.getElementById("cCount").textContent = c;
-  document.getElementById("soldCount").textContent = sold;
 }
   });
 }
