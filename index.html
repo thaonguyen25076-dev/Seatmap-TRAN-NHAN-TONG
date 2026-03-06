@@ -232,12 +232,12 @@ function openShow(type) {
 
   // ===== VỞ 9/3 =====
   if (type === "show2") {
-    window.MAP_KEY = "show2"; // ✅ PHẢI ĐẶT TRƯỚC
+    window.MAP_KEY = "show2";
 
     document.getElementById("mapSelect").style.display = "none";
     document.getElementById("mainLayout").style.display = "flex";
 
-    updateTicketUI(); // ✅ GỌI SAU KHI SET KEY
+    updateTicketUI(); 
     initSeatMap();
   }
 }
