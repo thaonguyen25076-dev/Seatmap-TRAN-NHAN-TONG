@@ -17,6 +17,11 @@ if (window.MAP_KEY === "show2") {
 }
   seatWrapper.innerHTML = "";
   bottomRow.innerHTML = "";
+if (window.MAP_KEY === "magic") {
+  document.body.classList.add("magic");
+} else {
+  document.body.classList.remove("magic");
+}
 
   /* ===== HÀNG A–M ===== */
   rows.forEach(row => {
@@ -43,10 +48,16 @@ if (window.MAP_KEY === "show2") {
     seat.textContent = i;
 
     const seatId = "N" + i;
+    if (window.MAP_KEY === "magic") {
+  seat.classList.add("locked");
+}
 
     if (window.MAP_KEY === "show2") {
       seat.classList.add("normal300");
     }
+    if (window.MAP_KEY === "magic") {
+  seat.classList.add("magic-seat");
+}
 
     if (!VIEW_ONLY) {
       seat.addEventListener("click", () => toggleSeat(seatId));
@@ -140,6 +151,9 @@ function createBlock(nums, red, row) {
     seat.textContent = n;
 
     const seatId = row + n;
+    if (window.MAP_KEY === "magic") {
+  seat.classList.add("locked");
+}
     const isCenter = n >= 5 && n <= 13;
 
     /* ================== VỞ 9/3 ================== */
@@ -159,6 +173,10 @@ function createBlock(nums, red, row) {
       }
 
     }
+    /* ================== BÀN TAY MA THUẬT ================== */
+if (window.MAP_KEY === "magic") {
+  seat.classList.add("magic-seat");
+}
 
     /* ================== TRẦN NHÂN TÔNG ================== */
     else {
@@ -182,6 +200,7 @@ function createBlock(nums, red, row) {
 
   return block;
 }
+
 
 /* ================== FIREBASE ================== */
 function toggleSeat(seatId) {
@@ -332,4 +351,28 @@ function updateTicketUI() {
     card2.querySelector(".ticket-name").textContent = "VIP";
     card2.querySelector(".ticket-price").textContent = "400,000đ";
   }
+  if (window.MAP_KEY === "magic") {
+  setTimeout(() => {
+    const cards = document.querySelectorAll(".ticket-card");
+
+    if (cards.length >= 2) {
+      // chỉ giữ 1 vé
+      const card1 = cards[0];
+      const card2 = cards[1];
+
+    
+      card1.querySelector(".ticket-name").textContent = "VÉ ĐỒNG GIÁ";
+      card1.querySelector(".ticket-price").textContent = "300,000đ";
+
+      // ẩn vé thứ 2
+      card2.style.display = "none";
+    }
+
+    // xóa vé B nếu có từ show2
+    const extra = document.getElementById("vip500");
+    if (extra) extra.remove();
+
+  }, 0);
+}
+  
 }

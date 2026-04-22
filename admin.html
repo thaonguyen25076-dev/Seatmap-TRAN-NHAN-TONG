@@ -43,7 +43,19 @@
       </button>
     </div>
   </div>
+<!-- ===== VỞ 3 ===== -->
+<div class="show-card">
+  <img src="magic.jpg"> <!-- ảnh bạn tự thêm -->
 
+  <div class="show-info">
+    <div class="show-title">BÀN TAY MA THUẬT</div>
+    <div class="show-sub">Liveshow Ảo Thuật</div>
+
+    <button class="show-btn" onclick="openShow('magic')">
+      SƠ ĐỒ GHẾ
+    </button>
+  </div>
+</div>
 </div>
 
   </div>
@@ -362,7 +374,18 @@ function openShow(type) {
     updateTicketUI();
     initSeatMap();
   }
+
+  // ===== VỞ BÀN TAY MA THUẬT =====
+if (type === "magic") {
+  window.MAP_KEY = "magic";
+
+  document.getElementById("mapSelect").style.display = "none";
+  document.getElementById("mainLayout").style.display = "flex";
+
+  updateTicketUI();
+  initSeatMap();
 }
+  }
 </script>
 </script>
 <script src="script.js"></script>

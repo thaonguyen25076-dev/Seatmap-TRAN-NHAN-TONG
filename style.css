@@ -785,3 +785,35 @@ body.show2 {
   overflow: auto;
   margin: 0;
 }
+.seat.magic-seat {
+  background: #f1c40f !important; /* vàng */
+  color: #000; /* chữ đen cho dễ nhìn */
+}
+/* 🔮 CHỈ ÁP DỤNG CHO VỞ ẢO THUẬT */
+body.magic .seat.locked {
+  background: #9e9e9e !important; /* xám đẹp hơn */
+  color: #fff;
+}
+
+/* ===== BG riêng cho vở ảo thuật ===== */
+body.magic {
+  background: url("magic-bg.jpg") no-repeat center center fixed;
+  background-size: cover;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  overflow-x: auto;
+  overflow-y: auto;
+  overflow: auto;
+  margin: 0;
+}
+/* 🔮 VỞ ẢO THUẬT - đổi badge xanh thành vàng */
+body.magic .ticket-badge.standard {
+  background: #f1c40f !important;
+  color: #000 !important;
+}
+/* 🔮 Vở ảo thuật - bỏ chữ trong ô badge */
+body.magic .ticket-badge {
+  font-size: 0;
+}
