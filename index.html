@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Seat Map</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <script>
+  document.body.classList.add("view-only");
+</script>
+<!-- ===== TRANG CHÍNH ===== -->
+<div id="homePage" class="home-page">
+
+  <h1 class="home-title">
+    CÁC VỞ DIỄN TẠI TRUNG TÂM NGHỆ THUẬT & GIẢI TRÍ IONAH
+  </h1>
+
+ <div class="home-container">
+
+  <!-- ===== VỞ 1 ===== -->
+  <div class="show-card">
+    <img src="KV.jpg">
+
+    <div class="show-info">
+      <div class="show-title">TRẦN NHÂN TÔNG</div>
+      <div class="show-sub">Vở Xiếc kết hợp Cải Lương</div>
+
+      <button class="show-btn" onclick="openShow('tran')">
+        SƠ ĐỒ GHẾ
+      </button>
+    </div>
+  </div>
+
+  <!-- ===== VỞ 2 ===== -->
+  <div class="show-card">
+    <img src="KV2.jpg">
+
+    <div class="show-info">
+      <div class="show-title">BẮC NAM NỐI DẢI XUÂN HỒNG</div>
+      <div class="show-sub">Vở Xiếc kết hợp Cải Lương</div>
+
+      <button class="show-btn" onclick="openShow('show2')">
+        SƠ ĐỒ GHẾ
+      </button>
+    </div>
+  </div>
+<!-- ===== VỞ 3 ===== -->
+<div class="show-card">
+  <img src="magic.jpg"> <!-- ảnh bạn tự thêm -->
+
+  <div class="show-info">
+    <div class="show-title">BÀN TAY MA THUẬT</div>
+    <div class="show-sub">Liveshow Ảo Thuật</div>
+
+    <button class="show-btn" onclick="openShow('magic')">
+      SƠ ĐỒ GHẾ
+    </button>
+  </div>
+</div>
+</div>
+
+  </div>
+</div>
+<!-- 🔒 CHỈ XEM – KHÁCH -->
+<script>
+ const isAdmin = location.href.includes("admin");
+window.VIEW_ONLY = !isAdmin;
+</script>
+
+<div class="top-header">
+  RẠP XIẾC TRUNG ƯƠNG - LIÊN ĐOÀN XIẾC VIỆT NAM
+</div>
+
+<!-- ===== TRANG CHỌN NGÀY ===== -->
+<div id="mapSelect" style="display:none">
+
+  <h2 class="map-title">
+    SƠ ĐỒ GHẾ VỞ DIỄN
+    <span>TRẦN NHÂN TÔNG</span>
+  </h2>
+
+  <!-- DANH SÁCH NGÀY (LOAD TỪ FIREBASE) -->
+  <div class="map-btn-group" id="dayList"></div>
+
+</div>
+
+<!-- ===== SƠ ĐỒ GHẾ ===== -->
+<div class="layout" id="mainLayout" style="display:none">
+
+  <div class="hall">
+
+    <div class="stage">SÂN KHẤU</div>
+    <div class="entrance">CỬA VÀO →</div>
+
+    <div class="seat-wrapper" id="seatWrapper"></div>
+
+    <div class="row bottom">
+      <div class="row-label">N</div>
+      <div class="bottom-row" id="bottomRow"></div>
+      <div class="row-label">N</div>
+    </div>
+
+  </div>
+
+  <div class="ticket-list">
+    <div class="ticket-title">HẠNG VÉ</div>
+
+    <div class="ticket-card">
+      <div class="ticket-badge standard">STANDARD</div>
+      <div>
+        <div class="ticket-name">STANDARD</div>
+        <div class="ticket-price">300,000đ</div>
+        <div class="ticket-note">Chọn từ sơ đồ ghế</div>
+      </div>
+    </div>
+
+    <div class="ticket-card">
+      <div class="ticket-badge vip">VIP</div>
+      <div>
+        <div class="ticket-name">VIP</div>
+        <div class="ticket-price">400,000đ</div>
+        <div class="ticket-note">Chọn từ sơ đồ ghế</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===== FIREBASE ===== -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyDhxpZNFqRmP00SinKIrJm9yiks65GMWfU",
+    authDomain: "seats-44179.firebaseapp.com",
+    databaseURL: "https://seats-44179-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "seats-44179",
+    storageBucket: "seats-44179.appspot.com",
+    messagingSenderId: "676842315110",
+    appId: ""
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+</script>
+
+<script>
+/* ================== 3 NGÀY GỐC – GIỮ NGUYÊN ================== */
+const DEFAULT_DAYS = [
+  "2026-01-31",
+  "2026-02-14",
+  "2026-02-28"
+];
+
+/* ================== ĐẢM BẢO NGÀY GỐC LUÔN TỒN TẠI ================== */
+DEFAULT_DAYS.forEach(day => {
+  db.ref("maps/" + day).get().then(snap => {
+    if (!snap.exists()) {
+      db.ref("maps/" + day).set(true);
+    }
+  });
+});
+
+/* ================== LOAD DANH SÁCH NGÀY ================== */
+const dayList = document.getElementById("dayList");
+
+db.ref("maps").on("value", snap => {
+  dayList.innerHTML = "";
+
+  if (!snap.exists()) {
+    dayList.innerHTML = "<p>Chưa có ngày diễn</p>";
+    return;
+  }
+
+  const days = Object.keys(snap.val()).sort();
+
+  days.forEach(day => {
+    const btn = document.createElement("button");
+    btn.className = "map-btn";
+
+    const [y, m, d] = day.split("-");
+    btn.innerText = `${d} - ${m} - ${y}`;
+
+    btn.onclick = () => selectMap(day);
+    dayList.appendChild(btn);
+  });
+});
+</script>
+
+<script>
+function selectMap(key) {
+  window.MAP_KEY = key;
+  document.body.classList.remove("show2-bg");
+  if (key === "show2") {
+    document.body.classList.add("show2-bg");
+  }
+
+  history.pushState({ map: key }, "", "#map-" + key);
+
+  document.getElementById("mapSelect").style.display = "none";
+  document.getElementById("mainLayout").style.display = "flex";
+
+  initSeatMap();
+  updateTicketUI();
+}
+
+window.addEventListener("popstate", function (e) {
+  if (!e.state || !e.state.map) {
+    document.getElementById("mainLayout").style.display = "none";
+    document.getElementById("mapSelect").style.display = "block";
+    window.MAP_KEY = null;
+    return;
+  }
+
+  window.MAP_KEY = e.state.map;
+  document.getElementById("mapSelect").style.display = "none";
+  document.getElementById("mainLayout").style.display = "flex";
+  initSeatMap();
+});
+</script>
+
+<div class="bottom-footer">
+  TRUNG TÂM NGHỆ THUẬT - GIẢI TRÍ IONAH / 67 - 69, TRẦN NHÂN TÔNG, HAI BÀ TRƯNG, HÀ NỘI
+</div>
+<script>
+function enterSeatMap() {
+  document.getElementById("homePage").style.display = "none";
+  document.getElementById("mapSelect").style.display = "block";
+}
+
+</script>
+<script>
+function openShow(type) {
+  document.getElementById("homePage").style.display = "none";
+
+  // ===== TRẦN NHÂN TÔNG =====
+  if (type === "tran") {
+    document.getElementById("mapSelect").style.display = "block";
+    document.getElementById("mainLayout").style.display = "none";
+  }
+
+  // ===== VỞ 9/3 =====
+  if (type === "show2") {
+    window.MAP_KEY = "show2";
+
+    document.getElementById("mapSelect").style.display = "none";
+    document.getElementById("mainLayout").style.display = "flex";
+
+    updateTicketUI(); 
+    initSeatMap();
+  }
+  // ===== VỞ BÀN TAY MA THUẬT =====
+if (type === "magic") {
+  window.MAP_KEY = "magic";
+
+  document.getElementById("mapSelect").style.display = "none";
+  document.getElementById("mainLayout").style.display = "flex";
+
+  updateTicketUI();
+  initSeatMap();
+}
+}
+</script>
+</script>
+</script>
+<script src="script.js"></script>
+</body>
+</html>
